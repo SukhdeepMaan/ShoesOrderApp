@@ -1,23 +1,38 @@
 <resources>
     <string name="app_name">ABCApp</string>
-    <string name="back_arrow">Back arrow</string>
-    <string name="hello_again">Hello Again!</string>
-    <string name="welcome_back_you_have_been_missed">Welcome Back you have been Missed!</string>
-    <string name="username">Username</string>
-    <string name="password">Password</string>
+    <string name="store_location">Store Location</string>
+    <string name="mondolibug_sylhet">Mondolibug, Sylhet</string>
+    <string name="looking_for_shoes">Looking for shoes?</string>
+    <string name="search">Search</string>
+    <string name="menu">Menu</string>
+    <string name="bag">Bag</string>
+    <string name="company">Company</string>
+    <string name="all">All</string>
+    <string name="nike">Nike</string>
+    <string name="adidas">Adidas</string>
+    <string name="puma">Puma</string>
+    <string name="vans">Vans</string>
+    <string name="location">Location</string>
     <string name="recovery_password">Recovery Password</string>
-    <string name="sign_in_with_google">Sign in with google</string>
-    <string name="don_t_have_an_account">Don\'t Have An Account?</string>
-    <string name="sign_up_for_free">Sign Up For Free</string>
-    <string name="your_name">Your Name</string>
-    <string name="enter_name">Enter name</string>
-    <string name="email_address">Email Address</string>
-    <string name="email">Email</string>
-    <string name="already_have_an_account">already have an account?</string>
-    <string name="sign_in">Sign In</string>
-    <string name="create_account">Create Account</string>
-    <string name="let_s_create_account_together">Let\'s Create Account Together</string>
-    <string name="continueText">Continue</string>
-    <string name="enter_email_address">Enter Email Address</string>
-    <string name="please_enter_your_email_address_to_recieve_a_verification_code">Please Enter Your Email Address To Recieve a Verification Code</string>
+    <string name="please_enter_your_email_address_to_recieve_a_verification_code">please_enter_your_email_address_to_recieve_a_verification_code</string>
+    <string name="email_address">email_address</string>
+    <string name="enter_email_address">enter_email_address</string>
+    <string name="continueText">continueText</string>
+    <string name="hello_again">hello_again</string>
+    <string name="welcome_back_you_have_been_missed">welcome_back_you_have_been_missed</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="don_t_have_an_account">don_t_have_an_account</string>
+    <string name="sign_up_for_free">sign_up_for_free</string>
+    <string name="sign_in_with_google">sign_in_with_google</string>
+    <string name="back_arrow">back_arrow</string>
+    <string name="create_account">create_account</string>
+    <string name="let_s_create_account_together">let_s_create_account_together</string>
+    <string name="your_name">your_name</string>
+    <string name="enter_name">enter_name</string>
+    <string name="email">email</string>
+    <string name="already_have_an_account">already_have_an_account</string>
+    <string name="sign_in">sign_in</string>
+
+
 </resources>

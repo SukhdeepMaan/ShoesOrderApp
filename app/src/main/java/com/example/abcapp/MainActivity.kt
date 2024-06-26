@@ -41,6 +41,7 @@ class MainActivity : ComponentActivity() {
                //ShoeApp()
                //ShoeAppSignUp()
                // RecoveryPassword()
+               HomeDesigning()
             }
         }
     }
