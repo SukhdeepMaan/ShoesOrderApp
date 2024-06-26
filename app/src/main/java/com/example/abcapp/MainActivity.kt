@@ -38,9 +38,8 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             ABCAppTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                   SignIn(modifier = Modifier.padding(innerPadding))
-                }
+               ShoeApp()
+
             }
         }
     }
@@ -48,41 +47,51 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun SignIn(modifier: Modifier = Modifier) {
-    
+
     val userNameField = remember { mutableStateOf("") }
     val passwordField = remember { mutableStateOf("") }
 
-    Column(modifier = Modifier
+    Column(
+        modifier = Modifier
 
-        .padding(64.dp)
-        .fillMaxSize()
-        .padding(top = 64.dp),
+            .padding(64.dp)
+            .fillMaxSize()
+            .padding(top = 64.dp),
         verticalArrangement = Arrangement.spacedBy(64.dp),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-
-        Text(text = "Sign In", fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
-        OutlinedTextField(
-            value = userNameField.value,
-            onValueChange = {userNameField.value = it},
-            label = { Text(text = "Username")},
-            leadingIcon = { Icon(imageVector = Icons.Default.Person, contentDescription = null)},
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
-            )
-        OutlinedTextField(value = passwordField.value,
-            onValueChange = {passwordField.value = it},
-            label = { Text(text = "Password")},
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null)},
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-
-        )
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "Sign In")
+
+            Text(text = "Sign In", fontSize = 32.sp, fontWeight = FontWeight.SemiBold)
+            OutlinedTextField(
+                value = userNameField.value,
+                onValueChange = { userNameField.value = it },
+                label = { Text(text = "Username") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Default.Person,
+                        contentDescription = null
+                    )
+                },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+            )
+            OutlinedTextField(
+                value = passwordField.value,
+                onValueChange = { passwordField.value = it },
+                label = { Text(text = "Password") },
+                leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = null) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+
+            )
+            Button(onClick = { /*TODO*/ }) {
+                Text(text = "Sign In")
+            }
         }
+
+
     }
-
 }
-
 
 
