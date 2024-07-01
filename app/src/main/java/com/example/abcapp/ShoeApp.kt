@@ -20,6 +20,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -84,7 +87,7 @@ fun ShoeApp(modifier: Modifier = Modifier) {
                 TitleText(
                     firstText = stringResource(R.string.hello_again),
                     secondText = stringResource(R.string.welcome_back_you_have_been_missed)
-                )
+               
                 // input field
                 Column(
                     modifier = Modifier.padding(vertical = 48.dp, horizontal = 16.dp),
@@ -253,7 +256,7 @@ fun HeaderAndInputField(
             trailingIcon = {
                 if (isShowIcon) IconButton(onClick = onClick) {
                     Icon(
-                        imageVector = Icons.Default.AddCircle,
+                        imageVector = Icons.Default.RemoveRedEye,
                         contentDescription = null,
                         tint = if (isPasswordShow) Color.Black else Color.LightGray
                     )
@@ -270,7 +273,6 @@ fun HeaderAndInputField(
 
 @Composable
 fun BackArrow(modifier: Modifier = Modifier) {
-
     Box(
         modifier = modifier
             .background(color = Color.White, shape = CircleShape)
@@ -317,7 +319,4 @@ fun TitleText(modifier: Modifier = Modifier ,firstText: String, secondText: Stri
             textAlign = TextAlign.Center
         )
     }
-
-
-
 }
