@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
@@ -37,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -56,6 +58,24 @@ var mapList = mapOf(
     R.drawable.under_armour to "Under Armour",
 )
 
+data class Shoes(
+    val id: Int,
+    val name: String,
+    @DrawableRes val icon: Int
+)
+
+object DataModel {
+
+    fun getShoesData() = listOf(
+        Shoes(1, "Nike", R.drawable.nike),
+        Shoes(2, "Adidas", R.drawable.adidas),
+        Shoes(3, "Puma", R.drawable.puma),
+        Shoes(4, "Converse", R.drawable.converse),
+        Shoes(5, "Under Armour", R.drawable.under_armour)
+    )
+
+}
+
 // header like AppBar
 @Composable
 fun HeaderDesign(
@@ -66,15 +86,13 @@ fun HeaderDesign(
 ) {
     Row(
         modifier = modifier
-            .requiredHeight(64.dp)
             .fillMaxWidth()
             .padding(8.dp),
         verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         leadingIcon.invoke(this)
         Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             title?.invoke(this)
@@ -92,7 +110,8 @@ fun CustomIcon(
     @DrawableRes icon: Int,
     background: Boolean = true,
     contentDescription: String,
-    onClick: () -> Unit
+    tint: Color = Color.Unspecified,
+    onClick: () -> Unit = {}
 ) {
     IconButton(
         modifier = modifier
@@ -105,11 +124,21 @@ fun CustomIcon(
             },
         onClick = onClick
     ) {
-        Image(
+        Icon(
             painter = painterResource(id = icon),
-            contentDescription = contentDescription
+            contentDescription = contentDescription,
+            tint = tint
         )
     }
+}
+
+@Composable
+fun Circle(modifier: Modifier = Modifier, color: Color = Color.Red) {
+    Spacer(
+        modifier = modifier
+            .background(color, CircleShape)
+            .size(8.dp)
+    )
 }
 
 
@@ -155,38 +184,37 @@ fun CustomSearchBar(
 @Composable
 fun CompanyNameButton(
     modifier: Modifier = Modifier,
-    @DrawableRes icon: Int,
-    name: String,
+    data: Shoes,
     index: Int,
     isSelected: Boolean,
-    onClick: () -> Unit
+    onClick: (Int) -> Unit
 ) {
-    if (isSelected) {
-        Button(
-            modifier = modifier.height(64.dp),
-            shape = ButtonDefaults.shape,
-            contentPadding = ButtonDefaults.ContentPadding,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = cornflowerBlue,
-            ),
-            onClick = onClick
-        ) {
+    Button(
+        modifier = modifier,
+        shape = CircleShape,
+        colors = ButtonDefaults.buttonColors(
+            containerColor = if (isSelected) cornflowerBlue else Color.White,
+        ),
+        onClick = { onClick(index) },
+        contentPadding = if (isSelected) PaddingValues(
+            top = 10.dp, bottom = 10.dp, start = 10.dp, end = 30.dp
+        ) else PaddingValues(10.dp)
+    ) {
+        if (isSelected) {
             CustomIcon(
-                icon = icon,
-                contentDescription = name,
-                onClick = onClick
+                icon = data.icon,
+                contentDescription = data.name,
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(text = name)
+            Text(text = data.name)
+        } else {
+            Icon(
+                painter = painterResource(id = data.icon),
+                contentDescription = null,
+                tint = Color.Unspecified,
+                modifier = Modifier.size(45.dp)
+            )
         }
-
-    } else {
-        CustomIcon(
-            modifier = modifier.fillMaxHeight(),
-            icon = icon,
-            contentDescription = name,
-            onClick = onClick
-        )
     }
 }
 
@@ -194,12 +222,12 @@ fun CompanyNameButton(
 fun StickyHeaderDesign(
     modifier: Modifier = Modifier,
     header: String,
-    buttonName: String = "See all",
+    buttonName: String = stringResource(R.string.see_all),
     onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth(),
+            .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -236,7 +264,6 @@ fun ShoeItem(
                 shape = RoundedCornerShape(16.dp)
             )
             .padding(start = 8.dp)
-
     ) {
         Image(
             modifier = Modifier
@@ -278,14 +305,18 @@ fun ShoeItem(
             )
             Button(
                 onClick = onClick,
-                shape = RoundedCornerShape(8.dp),
+                shape = RoundedCornerShape(
+                    topStart = 30.dp,
+                    bottomEnd = 16.dp
+                ),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = cornflowerBlue,
-                )
+                ),
+                contentPadding = PaddingValues(12.dp)
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add",
+                    contentDescription = stringResource(R.string.add),
                     tint = Color.White
                 )
             }
@@ -317,7 +348,7 @@ fun NewShowItem(
     ) {
         Column(
             modifier = Modifier.weight(1f)
-        ){
+        ) {
             Text(
                 text = shoeData.description,
                 color = cornflowerBlue,

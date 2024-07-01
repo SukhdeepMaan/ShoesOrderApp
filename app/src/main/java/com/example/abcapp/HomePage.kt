@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
@@ -18,6 +21,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -37,16 +41,14 @@ import com.example.abcapp.ui.theme.white
 @Composable
 fun HomeDesigning(modifier: Modifier = Modifier) {
     var searchValue by remember { mutableStateOf("") }
-    var selectedCompany by remember { mutableStateOf(0) }
+    var selectedCompany by remember { mutableIntStateOf(DataModel.getShoesData()[0].id) }
     HomePage(
         modifier = modifier
             .fillMaxSize()
-            .background(color = white)
-            .padding(8.dp)
-            .padding(horizontal = 8.dp),
+            .background(color = white),
         header = {
             HeaderDesign(
-                modifier = Modifier.padding(top = 16.dp),
+                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 title = {
                     Text(
                         text = stringResource(R.string.store_location),
@@ -77,11 +79,18 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
                         //TODO menu button action here
                     }
                 }, trailingIcon = {
-                    CustomIcon(
-                        icon = R.drawable.bag,
-                        contentDescription = stringResource(R.string.bag)
-                    ) {
-                        //TODO menu button action here
+                    Box {
+                        CustomIcon(
+                            icon = R.drawable.bag,
+                            contentDescription = stringResource(R.string.bag)
+                        ) {
+
+                        }
+                        Circle(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .padding(top = 5.dp)
+                        )
                     }
                 }
             )
@@ -97,22 +106,29 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
                         contentDescription = stringResource(R.string.search),
                         background = false
                     ) {
-                        // TODO Search action will be here
+
                     }
-                }
+                },
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
         },
         company = {
-            items(mapList.keys.toList()) {
-                CompanyNameButton(
-                    icon = it,
-                    name = mapList[it]!!,
-                    index = it,
-                    isSelected = selectedCompany == it
-                ) {
-                    selectedCompany = it
+            LazyRow(
+                modifier = Modifier.padding(vertical = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                item {
                 }
-
+                items(DataModel.getShoesData(), key = { it.id }) {
+                    CompanyNameButton(
+                        data = it,
+                        index = it.id,
+                        isSelected = selectedCompany == it.id
+                    ) { value ->
+                        selectedCompany = value
+                    }
+                }
             }
 
         },
@@ -121,7 +137,7 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
             item {
                 StickyHeaderDesign(
                     modifier = Modifier.padding(top = 8.dp),
-                    header = "Popular Shoes"
+                    header = stringResource(R.string.popular_shoes)
                 ) {
                     //TODO see all action will be here
                 }
@@ -129,9 +145,10 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
             // each shoe item
             item {
                 LazyRow(
-                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    item {
+                    }
                     items(shoeList) {
                         ShoeItem(shoeData = it) {
                             //TODO add to cart action will be here
@@ -146,7 +163,7 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
             item {
                 StickyHeaderDesign(
                     modifier = Modifier.padding(top = 16.dp),
-                    header = "New Arrivals"
+                    header = stringResource(R.string.new_arrivals)
                 ) {
                     //TODO see all action will be here
                 }
@@ -156,9 +173,10 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
+                    item { }
                     items(shoeList) {
                         Box(
-                            modifier = Modifier.fillParentMaxWidth()
+                            modifier = Modifier.fillParentMaxWidth(0.8f)
                         ) {
                             NewShowItem(shoeData = it)
                         }
@@ -175,23 +193,14 @@ fun HomePage(
     modifier: Modifier = Modifier,
     header: (@Composable () -> Unit)? = null,
     search: (@Composable () -> Unit)? = null,
-    company: (LazyListScope.() -> Unit)? = null,
+    company: (@Composable () -> Unit)? = null,
     content: (LazyListScope.() -> Unit)? = null
 ) {
     Column(modifier = modifier) {
         header?.invoke()
         search?.invoke()
-        LazyColumn(modifier = Modifier.weight(1f)) {
-            item {
-                LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(64.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    company?.invoke(this)
-                }
-            }
+        company?.invoke()
+        LazyColumn {
             content?.invoke(this)
         }
     }

@@ -33,6 +33,10 @@
     <string name="email">email</string>
     <string name="already_have_an_account">already_have_an_account</string>
     <string name="sign_in">sign_in</string>
+    <string name="popular_shoes">Popular Shoes</string>
+    <string name="new_arrivals">New Arrivals</string>
+    <string name="see_all">See all</string>
+    <string name="add">Add</string>
 
 
 </resources>
