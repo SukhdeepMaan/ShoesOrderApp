@@ -18,9 +18,10 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -83,15 +84,10 @@ fun ShoeApp(modifier: Modifier = Modifier) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             item {
-                Text(
-                    text = stringResource(R.string.hello_again), style = TextStyle(
-                        fontWeight = FontWeight.Bold, fontSize = 36.sp
-                    )
-                )
-                Text(
-                    text = stringResource(R.string.welcome_back_you_have_been_missed),
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                TitleText(
+                    firstText = stringResource(R.string.hello_again),
+                    secondText = stringResource(R.string.welcome_back_you_have_been_missed)
+               
                 // input field
                 Column(
                     modifier = Modifier.padding(vertical = 48.dp, horizontal = 16.dp),
@@ -305,5 +301,22 @@ fun BackArrow2(modifier: Modifier = Modifier) {
             contentDescription = stringResource(R.string.back_arrow),
         )
     }
+}
 
+@Composable
+fun TitleText(modifier: Modifier = Modifier ,firstText: String, secondText: String) {
+    Column(modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            text = firstText, style = TextStyle(
+                fontWeight = FontWeight.Bold, fontSize = 24.sp,
+                textAlign = TextAlign.Center
+            )
+        )
+        Text(
+            text = secondText,
+            color = MaterialTheme.colorScheme.secondary,
+            textAlign = TextAlign.Center
+        )
+    }
 }

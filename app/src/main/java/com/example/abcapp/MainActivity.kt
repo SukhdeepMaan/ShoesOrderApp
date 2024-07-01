@@ -38,8 +38,10 @@ class MainActivity : ComponentActivity() {
         //enableEdgeToEdge()
         setContent {
             ABCAppTheme {
-               ShoeApp()
-
+               //ShoeApp()
+               //ShoeAppSignUp()
+               // RecoveryPassword()
+               HomeDesigning()
             }
         }
     }
