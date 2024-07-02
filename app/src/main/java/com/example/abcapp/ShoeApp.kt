@@ -87,6 +87,7 @@ fun ShoeApp(modifier: Modifier = Modifier) {
                 TitleText(
                     firstText = stringResource(R.string.hello_again),
                     secondText = stringResource(R.string.welcome_back_you_have_been_missed)
+                )
                
                 // input field
                 Column(

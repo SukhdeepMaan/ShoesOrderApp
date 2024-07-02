@@ -3,7 +3,10 @@ package com.example.abcapp
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,6 +20,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -31,9 +36,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
@@ -47,7 +54,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.abcapp.data.ShoeData
 import com.example.abcapp.data.shoeList
+import com.example.abcapp.ui.theme.black
 import com.example.abcapp.ui.theme.cornflowerBlue
+import com.example.abcapp.ui.theme.lightGrey
 
 
 var mapList = mapOf(
@@ -86,17 +95,18 @@ fun HeaderDesign(
 ) {
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         leadingIcon.invoke(this)
+        Spacer(modifier = Modifier.weight(1f))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             title?.invoke(this)
         }
+        Spacer(modifier = Modifier.weight(1f))
         trailingIcon.invoke(this)
     }
 }
@@ -133,11 +143,11 @@ fun CustomIcon(
 }
 
 @Composable
-fun Circle(modifier: Modifier = Modifier, color: Color = Color.Red) {
+fun Circle(modifier: Modifier = Modifier, color: Color = Color.Red, size: Int = 8) {
     Spacer(
         modifier = modifier
             .background(color, CircleShape)
-            .size(8.dp)
+            .size(size.dp)
     )
 }
 
@@ -249,14 +259,14 @@ fun StickyHeaderDesign(
     }
 }
 
-
 @Composable
 fun ShoeItem(
     modifier: Modifier = Modifier,
     shoeData: ShoeData,
+    isFavorite: Boolean = false,
     onClick: () -> Unit
 ) {
-    Column(
+    Box(
         modifier = modifier
             .size(180.dp, 280.dp)
             .background(
@@ -265,45 +275,23 @@ fun ShoeItem(
             )
             .padding(start = 8.dp)
     ) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f)
-                .align(Alignment.CenterHorizontally),
-            contentScale = ContentScale.Fit,
-            painter = painterResource(id = shoeData.image),
-            contentDescription = shoeData.name
-        )
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = shoeData.description,
-            color = cornflowerBlue,
-            style = TextStyle(
-                fontSize = 12.sp
+        Column(modifier = modifier.padding(bottom = 8.dp)) {
+            Image(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f)
+                    .align(Alignment.CenterHorizontally),
+                contentScale = ContentScale.Fit,
+                painter = painterResource(id = shoeData.image[0]),
+                contentDescription = shoeData.name
             )
-        )
-        Text(
-            modifier = Modifier.padding(vertical = 4.dp),
-            text = shoeData.name,
-            style = TextStyle(
-                fontSize = 16.sp,
-                fontWeight = FontWeight.SemiBold
-            )
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                modifier = Modifier.weight(1f),
-                text = "$${shoeData.price}",
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
+            Spacer(modifier = Modifier.height(8.dp))
+            NamePriceAndDes(shoeData = shoeData)
+        }
+        // Add to cart button
+        if (!isFavorite) {
             Button(
+                modifier = Modifier.align(Alignment.BottomEnd),
                 onClick = onClick,
                 shape = RoundedCornerShape(
                     topStart = 30.dp,
@@ -321,7 +309,30 @@ fun ShoeItem(
                 )
             }
         }
+        // Favorite icon
+        if (isFavorite) {
+            CustomIcon(
+                icon = R.drawable.heart,
+                contentDescription = "Heart",
+                background = true,
+                onClick = onClick
+            )
+            // Color list
+            LazyRow(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 8.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                items(shoeData.colorList) {
+                    Circle(
+                        color = it,
+                        size = 16
+                    )
+                }
+            }
+        }
     }
+
 }
 
 @Preview
@@ -346,41 +357,121 @@ fun NewShowItem(
             .padding(start = 24.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                text = shoeData.description,
-                color = cornflowerBlue,
-                style = TextStyle(
-                    fontSize = 14.sp
-                )
-            )
-            Text(
-                modifier = Modifier.padding(vertical = 8.dp),
-                text = shoeData.name,
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
-            Text(
-                modifier = Modifier.padding(top = 4.dp),
-                text = "$${shoeData.price}",
-                style = TextStyle(
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
-        }
+        NamePriceAndDes(shoeData = shoeData)
         Image(
             modifier = Modifier
                 .weight(1f)
-                .size(150.dp),
+                .size(130.dp),
             contentScale = ContentScale.Fit,
-            painter = painterResource(id = shoeData.image),
+            painter = painterResource(id = shoeData.image[0]),
             contentDescription = shoeData.name
         )
     }
-
 }
+
+@Composable
+fun NamePriceAndDes(
+    modifier: Modifier = Modifier,
+    shoeData: ShoeData,
+    nameStyle: TextStyle = TextStyle(
+        fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold
+    ),
+    priceStyle: TextStyle = TextStyle(
+        fontSize = 18.sp,
+        fontWeight = FontWeight.SemiBold
+    )) {
+    Column(
+        modifier = modifier
+    ) {
+        Text(
+            text = shoeData.description,
+            color = cornflowerBlue,
+            style = TextStyle(
+                fontSize = 14.sp
+            )
+        )
+        Text(
+            modifier = Modifier.padding(vertical = 8.dp),
+            text = shoeData.name,
+            style = nameStyle
+        )
+        Text(
+            modifier = Modifier.padding(top = 4.dp),
+            text = "$${shoeData.price}",
+            style = priceStyle
+        )
+    }
+}
+
+@Composable
+fun ShoeSizeButton(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean = false,
+    shoeSize: Int,
+    onClick: () -> Unit
+) {
+    IconButton(
+        modifier = modifier
+            .background(color = if (isSelected) cornflowerBlue else lightGrey, shape = CircleShape),
+        onClick = onClick
+    ) {
+        Text(text = "$shoeSize")
+    }
+}
+
+@Composable
+fun ShoeSizeType(
+    modifier: Modifier = Modifier,
+    isSelected: Boolean,
+    text: String,
+    onClick: () -> Unit) {
+    Text(
+        modifier = modifier
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() }
+            ) { onClick() }
+            .padding(start = 12.dp),
+        text = text,
+        style = TextStyle(
+            color = if (isSelected) black else Color.Gray
+        )
+    )
+}
+
+@Composable
+fun BottomDesignAddToCart(
+    modifier: Modifier = Modifier,
+    price: String,
+    priceStyle: TextStyle = TextStyle(),
+    onClick: () -> Unit) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            Text(text = "Price",
+                color = Color.Gray)
+            Text(text = "$$price",
+                style = priceStyle)
+        }
+        Button(
+            colors = ButtonDefaults.buttonColors(
+                containerColor = cornflowerBlue
+            ),
+            contentPadding = PaddingValues(vertical = 16.dp, horizontal = 32.dp),
+            onClick = onClick) {
+            Text(text = "Add To Card",
+                style = TextStyle(
+                    fontSize = 18.sp
+                )
+            )
+        }
+    }
+}
+
+
