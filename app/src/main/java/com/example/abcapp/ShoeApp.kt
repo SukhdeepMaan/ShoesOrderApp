@@ -88,7 +88,7 @@ fun ShoeApp(modifier: Modifier = Modifier) {
                     firstText = stringResource(R.string.hello_again),
                     secondText = stringResource(R.string.welcome_back_you_have_been_missed)
                 )
-               
+
                 // input field
                 Column(
                     modifier = Modifier.padding(vertical = 48.dp, horizontal = 16.dp),
@@ -305,9 +305,11 @@ fun BackArrow2(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun TitleText(modifier: Modifier = Modifier ,firstText: String, secondText: String) {
-    Column(modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally) {
+fun TitleText(modifier: Modifier = Modifier, firstText: String, secondText: String) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Text(
             text = firstText, style = TextStyle(
                 fontWeight = FontWeight.Bold, fontSize = 24.sp,

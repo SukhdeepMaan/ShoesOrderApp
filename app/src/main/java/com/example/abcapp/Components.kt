@@ -322,7 +322,8 @@ fun ShoeItem(
                 modifier = Modifier
                     .align(Alignment.BottomEnd)
                     .padding(bottom = 8.dp, end = 8.dp),
-                horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
                 items(shoeData.colorList) {
                     Circle(
                         color = it,
@@ -380,7 +381,8 @@ fun NamePriceAndDes(
     priceStyle: TextStyle = TextStyle(
         fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold
-    )) {
+    )
+) {
     Column(
         modifier = modifier
     ) {
@@ -425,7 +427,8 @@ fun ShoeSizeType(
     modifier: Modifier = Modifier,
     isSelected: Boolean,
     text: String,
-    onClick: () -> Unit) {
+    onClick: () -> Unit
+) {
     Text(
         modifier = modifier
             .clickable(
@@ -445,7 +448,8 @@ fun BottomDesignAddToCart(
     modifier: Modifier = Modifier,
     price: String,
     priceStyle: TextStyle = TextStyle(),
-    onClick: () -> Unit) {
+    onClick: () -> Unit
+) {
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
@@ -454,18 +458,24 @@ fun BottomDesignAddToCart(
             modifier = Modifier
                 .weight(1f)
         ) {
-            Text(text = "Price",
-                color = Color.Gray)
-            Text(text = "$$price",
-                style = priceStyle)
+            Text(
+                text = "Price",
+                color = Color.Gray
+            )
+            Text(
+                text = "$$price",
+                style = priceStyle
+            )
         }
         Button(
             colors = ButtonDefaults.buttonColors(
                 containerColor = cornflowerBlue
             ),
             contentPadding = PaddingValues(vertical = 16.dp, horizontal = 32.dp),
-            onClick = onClick) {
-            Text(text = "Add To Card",
+            onClick = onClick
+        ) {
+            Text(
+                text = "Add To Card",
                 style = TextStyle(
                     fontSize = 18.sp
                 )

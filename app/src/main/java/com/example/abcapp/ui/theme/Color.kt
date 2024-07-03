@@ -1,5 +1,6 @@
 package com.example.abcapp.ui.theme
 
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 
 val Purple80 = Color(0xFFD0BCFF)
@@ -13,3 +14,11 @@ val cornflowerBlue = Color(0xFF5B9EE1)
 val white = Color(0xFFF1EEEE)
 val lightGrey = Color(0xFFF5F5F5)
 val black = Color(0xFF000000)
+
+
+val ovalGradientColor = Brush.linearGradient(
+    colors = listOf(
+        Color(0XFF87C3FF),
+        Color(0XFF5B9EE1),
+    )
+)

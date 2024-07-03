@@ -1,8 +1,11 @@
 package com.example.abcapp
 
 import android.widget.ImageButton
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,6 +15,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -20,6 +25,8 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -38,23 +45,34 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.abcapp.components.AppIcon
 import com.example.abcapp.data.ShoeData
+import com.example.abcapp.data.imageList
+import com.example.abcapp.data.shoeList
 import com.example.abcapp.data.sizeType
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGrey
+import com.example.abcapp.ui.theme.ovalGradientColor
 import com.example.abcapp.ui.theme.white
+import kotlinx.coroutines.launch
 
 @Composable
 fun DetailScreenDesign(
@@ -64,8 +82,7 @@ fun DetailScreenDesign(
     bottomContent: @Composable () -> Unit
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize()
     ) {
         header.invoke()
         LazyColumn(
@@ -81,6 +98,7 @@ fun DetailScreenDesign(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier,
@@ -88,77 +106,87 @@ fun DetailScreen(
 
     ) {
     var selectedSize by remember { mutableIntStateOf(10) }
-    var shoeSizeType by remember {mutableStateOf("EU")
+    var shoeSizeType by remember {
+        mutableStateOf("EU")
     }
-    DetailScreenDesign(
-        modifier = modifier.background(color = white),
-        header = {
-            HeaderDesign(
-                modifier = Modifier
-                    .background(color = lightGrey)
-                    .padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                title = {
-                    Text(text = stringResource(R.string.men_s_shoe),
-                        style = TextStyle(
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.SemiBold
-                        ))
-                },
-                leadingIcon = {
-                    CustomIcon(
-                        icon = R.drawable.arrow,
-                        contentDescription = stringResource(R.string.back_arrow),
-                        onClick = {/*TODO*/ }
-                    )
-                },
-                trailingIcon = {
-                    CustomIcon(
-                        icon = R.drawable.bag,
-                        contentDescription = stringResource(R.string.bag),
-                        onClick = {/*TODO*/ }
+    val pagerState = rememberPagerState {
+        imageList.size
+    }
+    val scope = rememberCoroutineScope()
+    DetailScreenDesign(modifier = modifier.background(color = white), header = {
+        HeaderDesign(modifier = Modifier
+            .padding(top = 16.dp, start = 16.dp, end = 16.dp), title = {
+            Text(
+                text = stringResource(R.string.men_s_shoe), style = TextStyle(
+                    fontSize = 16.sp, fontWeight = FontWeight.SemiBold
+                )
+            )
+        }, leadingIcon = {
+            CustomIcon(
+                icon = R.drawable.arrow,
+                contentDescription = stringResource(R.string.back_arrow),
+                onClick = {/*TODO*/ },
+            )
+        }, trailingIcon = {
+            CustomIcon(icon = R.drawable.bag,
+                contentDescription = stringResource(R.string.bag),
+                onClick = {/*TODO*/ })
+        }
+
+        )
+    }, content = {
+        item {
+            Box {
+                HorizontalPager(state = pagerState) {
+                    Image(
+                        modifier = Modifier.fillMaxWidth(),
+                        painter = painterResource(id = R.drawable.nike_1),
+                        contentDescription = shoeData.name,
                     )
                 }
-
-            )
-        },
-        content = {
-            item {
-                Box(
+                OvalShape(
                     modifier = Modifier
-                        .fillParentMaxWidth()
-                        .fillParentMaxHeight(0.4f)
-                        .background(color = lightGrey)
-                        .padding(top = 8.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        // detail shoe photo
-                        Image(
-                            modifier = Modifier.fillMaxWidth().weight(1f),
-                            painter = painterResource(id = R.drawable.new_large_photo),
-                            contentDescription = shoeData.name,
+                        .padding(horizontal = 20.dp)
+                        .align(
+                            Alignment.BottomCenter
                         )
-                        Image(
-                            painter = painterResource(id = R.drawable.ellipse),
-                            contentDescription = shoeData.name
-                        )
+                )
+                PagerButtonComponent(
+                    modifier
+                        .offset(x = 0.dp, y = 20.dp)
+                        .align(
+                            Alignment.BottomCenter
+                        ), prevClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                        }
+                    }) {
+                    scope.launch {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
                     }
                 }
+            }
 
+            Column(
+                modifier = Modifier
+                    .padding(top = 40.dp)
+                    .background(
+                        Color.White, RoundedCornerShape(
+                            topStart = 24.dp, topEnd = 24.dp
+                        )
+                    )
+                    .padding(bottom = 20.dp)
+                    .fillMaxWidth()
+            ) {
                 // detail
                 NamePriceAndDes(
                     modifier = Modifier.padding(start = 20.dp, top = 16.dp),
                     shoeData = shoeData,
                     nameStyle = TextStyle(
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontSize = 24.sp, fontWeight = FontWeight.SemiBold
                     ),
                     priceStyle = TextStyle(
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontSize = 20.sp, fontWeight = FontWeight.SemiBold
                     )
                 )
                 // detail Text
@@ -171,8 +199,7 @@ fun DetailScreen(
                     modifier = Modifier.padding(start = 20.dp, bottom = 16.dp),
                     text = "Gallery",
                     style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
+                        fontSize = 18.sp, fontWeight = FontWeight.SemiBold
                     )
                 )
                 // gallery
@@ -181,8 +208,7 @@ fun DetailScreen(
                 ) {
                     item { }
                     items(shoeData.image) {
-                        Button(
-                            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                        Button(colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                             shape = RoundedCornerShape(8.dp),
                             contentPadding = PaddingValues(0.dp, 0.dp),
                             onClick = { /*TODO*/ }) {
@@ -198,27 +224,25 @@ fun DetailScreen(
                 Row(
                     modifier = Modifier.padding(horizontal = 20.dp),
                     verticalAlignment = Alignment.CenterVertically
-                ){
+                ) {
                     Text(
                         modifier = Modifier
                             .weight(1f)
                             .padding(bottom = 16.dp, top = 16.dp),
                         text = stringResource(R.string.size),
                         style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontSize = 18.sp, fontWeight = FontWeight.SemiBold
                         )
                     )
                     // size type
-                    Row{
+                    Row {
                         sizeType.forEach {
-                            ShoeSizeType(isSelected = shoeSizeType == it , text = it ) {
+                            ShoeSizeType(isSelected = shoeSizeType == it, text = it) {
                                 shoeSizeType = it
                             }
                         }
                     }
                 }
-
                 // size numbers
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
@@ -227,29 +251,95 @@ fun DetailScreen(
                         Spacer(modifier = Modifier.width(12.dp))
                     }
                     items(shoeData.size) {
-                        ShoeSizeButton(
-                            isSelected = selectedSize == it,
-                            shoeSize = it,
-                            onClick = {
-                                selectedSize = it
-                            }
-                        )
+                        ShoeSizeButton(isSelected = selectedSize == it, shoeSize = it, onClick = {
+                            selectedSize = it
+                        })
                     }
                 }
             }
-        },
-        bottomContent = {
-            BottomDesignAddToCart(
-                modifier = Modifier
-                    .padding(start = 20.dp, end = 20.dp, top = 16.dp, bottom = 16.dp),
-                price = shoeData.price.toString(),
-                priceStyle = TextStyle(
-                    fontSize = 20.sp,
-                fontWeight = FontWeight.SemiBold
-                )
-            ) {
-                // TODO add to cart action will be here
-            }
+
+
         }
-    )
+    }, bottomContent = {
+        BottomDesignAddToCart(
+            modifier = Modifier
+                .background(
+                    Color.White, RoundedCornerShape(
+                        topStart = 24.dp, topEnd = 24.dp
+                    )
+                )
+                .padding(
+                    20.dp
+                ), price = shoeData.price.toString(), priceStyle = TextStyle(
+                fontSize = 20.sp, fontWeight = FontWeight.SemiBold
+            )
+        ) {
+        }
+    })
+}
+
+@Composable
+private fun PagerButtonComponent(
+    modifier: Modifier = Modifier,
+    prevClick: () -> Unit,
+    nextClick: () -> Unit
+) {
+    Row(modifier = modifier
+        .drawBehind {
+            drawCircle(
+                color = cornflowerBlue
+            )
+        }
+        .padding(16.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+
+        AppIcon(
+            icon = R.drawable.prev, modifier = Modifier
+                .size(8.dp)
+                .clickable(onClick = prevClick)
+        )
+        AppIcon(
+            icon = R.drawable.next, modifier = Modifier
+                .size(8.dp)
+                .clickable(onClick = nextClick)
+        )
+    }
+}
+
+@Composable
+private fun OvalShape(modifier: Modifier = Modifier) {
+    Canvas(
+        modifier = modifier
+            .fillMaxWidth()
+            .height(70.dp)
+    ) {
+        val canvasWidth = size.width
+        val canvasHeight = size.height
+
+        drawOval(
+            brush = ovalGradientColor,
+            size = Size(
+                canvasWidth, height = canvasHeight,
+            ),
+            style = Stroke(2.dp.toPx())
+        )
+
+        drawOval(
+            brush = ovalGradientColor,
+            size = Size(
+                canvasWidth / 2, height = canvasHeight / 3,
+            ),
+            style = Stroke(2.dp.toPx()),
+            topLeft = Offset(canvasWidth / 6, canvasHeight / 4)
+        )
+        drawCircle(
+            color = cornflowerBlue,
+            radius = size.minDimension / 16,
+            center = Offset(canvasWidth / 5, canvasHeight - 20)
+        )
+        drawCircle(
+            color = cornflowerBlue,
+            radius = size.minDimension / 16,
+            center = Offset(canvasWidth / 1.2f, canvasHeight - 23)
+        )
+    }
 }
