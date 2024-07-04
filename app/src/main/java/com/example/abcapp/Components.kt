@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
@@ -89,25 +90,15 @@ object DataModel {
 @Composable
 fun HeaderDesign(
     modifier: Modifier = Modifier,
-    title: @Composable (ColumnScope.() -> Unit)? = null,
-    leadingIcon: @Composable RowScope.() -> Unit = {},
-    trailingIcon: @Composable RowScope.() -> Unit = {},
+    title: @Composable (BoxScope.(modifier: Modifier) -> Unit)? = null,
+    leadingIcon: (@Composable BoxScope.() -> Unit)? = null,
+    trailingIcon: (@Composable BoxScope.(modifier: Modifier) -> Unit)? = null,
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        leadingIcon.invoke(this)
-        Spacer(modifier = Modifier.weight(1f))
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            title?.invoke(this)
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        trailingIcon.invoke(this)
+
+    Box(modifier = modifier.fillMaxWidth()) {
+        leadingIcon?.invoke(this)
+        title?.invoke(this, Modifier)
+        trailingIcon?.invoke(this, Modifier)
     }
 }
 

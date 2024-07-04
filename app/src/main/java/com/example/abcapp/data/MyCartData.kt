@@ -1,5 +1,6 @@
 package com.example.abcapp.data
 
+import androidx.compose.runtime.mutableStateListOf
 import com.example.abcapp.R
 
 data class MyCartData(
@@ -10,6 +11,7 @@ data class MyCartData(
     val size: Int,
     var count: Int
 )
+
 
 var myCartList = listOf(
     MyCartData(
