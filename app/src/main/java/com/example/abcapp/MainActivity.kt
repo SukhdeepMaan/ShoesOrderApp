@@ -45,7 +45,8 @@ class MainActivity : ComponentActivity() {
                //HomeDesigning()
                 //FavouriteReady()
                 //BestSeller()
-                DetailScreen(shoeData = shoeList[0])
+                //DetailScreen(shoeData = shoeList[0])
+                MyCartReady()
             }
         }
     }
