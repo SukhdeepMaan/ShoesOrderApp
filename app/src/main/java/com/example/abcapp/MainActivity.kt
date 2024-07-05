@@ -42,11 +42,12 @@ class MainActivity : ComponentActivity() {
                //ShoeApp()
                //ShoeAppSignUp()
                // RecoveryPassword()
-               //HomeDesigning()
+               HomeDesigning()
                 //FavouriteReady()
                 //BestSeller()
                 //DetailScreen(shoeData = shoeList[0])
-                MyCartReady()
+                //MyCartReady()
+                //ReadyBottomSheetForHomePage()
             }
         }
     }

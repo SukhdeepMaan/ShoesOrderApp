@@ -15,6 +15,9 @@ val white = Color(0xFFF1EEEE)
 val lightGrey = Color(0xFFF5F5F5)
 val black = Color(0xFF000000)
 val lightGreyForBackGround = Color(0xFFF8F9FA)
+val unselectedColor = Color(0xFFE9EDEF)
+val unselectedTextColor = Color(0xFF707B81)
+
 
 
 val ovalGradientColor = Brush.linearGradient(

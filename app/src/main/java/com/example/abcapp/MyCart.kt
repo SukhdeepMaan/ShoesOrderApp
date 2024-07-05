@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -26,12 +25,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -47,7 +43,6 @@ import androidx.compose.ui.unit.sp
 import com.example.abcapp.components.AppIcon
 import com.example.abcapp.data.MyCartData
 import com.example.abcapp.data.myCartList
-import com.example.abcapp.data.shoeList
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGreyForBackGround
 
@@ -59,18 +54,22 @@ fun MyCartReady(modifier: Modifier = Modifier) {
     }
 
     MyCart(modifier = modifier.background(color = lightGreyForBackGround), header = {
-        HeaderDesign(modifier = Modifier.padding(20.dp), title = { modifier ->
-            Text(
-                text = stringResource(R.string.my_cart), style = TextStyle(
-                    fontSize = 16.sp, fontWeight = FontWeight.SemiBold
-                ), modifier = modifier.align(Alignment.Center)
-            )
-        }, leadingIcon = {
-            CustomIcon(
-                icon = R.drawable.arrow,
-                contentDescription = stringResource(id = R.string.back_arrow)
-            )
-        })
+        HeaderDesign(
+            modifier = Modifier.padding(20.dp),
+            title = {
+                Text(
+                    text = stringResource(R.string.my_cart), style = TextStyle(
+                        fontSize = 16.sp, fontWeight = FontWeight.SemiBold
+                    )
+                )
+            },
+            leadingIcon = {
+                CustomIcon(
+                    icon = R.drawable.arrow,
+                    contentDescription = stringResource(id = R.string.back_arrow)
+                )
+            }
+        )
     }, content = {
         items(data, key = { it.id }) {
             CartListItem(myCartData = it, isRefresh = isRefresh, onDelete = {
@@ -240,7 +239,9 @@ private fun CartListItem(
                             )
                             .clickable {
                                 onRefresh(!isRefresh)
-                                myCartData.count--
+                                if(myCartData.count>1) {
+                                    myCartData.count--
+                                }
                             }
                             .padding(4.dp))
 

@@ -88,7 +88,7 @@ object DataModel {
 
 // header like AppBar
 @Composable
-fun HeaderDesign(
+fun NewHeaderDesign(
     modifier: Modifier = Modifier,
     title: @Composable (BoxScope.(modifier: Modifier) -> Unit)? = null,
     leadingIcon: (@Composable BoxScope.() -> Unit)? = null,
@@ -99,6 +99,30 @@ fun HeaderDesign(
         leadingIcon?.invoke(this)
         title?.invoke(this, Modifier)
         trailingIcon?.invoke(this, Modifier)
+    }
+}
+
+@Composable
+fun HeaderDesign(
+    modifier: Modifier = Modifier,
+    title: @Composable (ColumnScope.()-> Unit)? = null,
+    leadingIcon: @Composable (RowScope.() -> Unit)? = null,
+    trailingIcon: @Composable (RowScope.() -> Unit)? = null,
+) {
+
+    Box(modifier = modifier.fillMaxWidth()) {
+        // leading icon
+        Row(modifier = Modifier.align(Alignment.CenterStart)) {
+            leadingIcon?.invoke(this)
+        }
+        // title
+        Column(modifier = Modifier.align(Alignment.Center)) {
+            title?.invoke(this)
+        }
+        // trailing icon
+        Row(modifier = Modifier.align(Alignment.CenterEnd)) {
+            trailingIcon?.invoke(this)
+        }
     }
 }
 
@@ -205,6 +229,7 @@ fun CompanyNameButton(
             CustomIcon(
                 icon = data.icon,
                 contentDescription = data.name,
+                onClick = {onClick(index)}
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = data.name)
