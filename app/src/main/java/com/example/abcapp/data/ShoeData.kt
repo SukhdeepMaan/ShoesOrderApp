@@ -2,6 +2,7 @@ package com.example.abcapp.data
 
 import androidx.compose.ui.graphics.Color
 import com.example.abcapp.R
+import com.example.abcapp.ui.theme.Purple40
 
 data class ShoeData(
     val id: Int,
@@ -65,7 +66,7 @@ var shoeList = listOf(
         size = shoeSizeList,
         description = "BEST SELLER",
         detailText = "Air Jordan is an American brand of basketball shoes athletic, casual, and style clothing produced by Nike....",
-        colorList = listOf(Color.Red, Color.Blue, Color.Green)
+        colorList = listOf(Color.Red, Color.Blue, Color.Green, Color.Gray, Purple40, Color.Yellow)
     ),
     ShoeData(
         id = 2,

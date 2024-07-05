@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -49,163 +50,158 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
     //val modalBottomSheetState = rememberModalBottomSheetState()
     val bottomSheetState = rememberBottomSheetScaffoldState()
 
-    HomePage(
-        modifier = modifier
-            .fillMaxSize()
-            .background(color = white),
-        header = {
-            HeaderDesign(
-                modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
-                title = {
-                    Text(
-                        text = stringResource(R.string.store_location),
-                        style = TextStyle(
-                            fontSize = 12.sp,
-                        )
-                    )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Image(
-                            painter = painterResource(id = R.drawable.locationicon),
-                            contentDescription = stringResource(R.string.location)
-                        )
+    BottomSheetScaffold(
+        sheetContent = {
+            ReadyBottomSheetForHomePage() {}
+        },
+        scaffoldState = bottomSheetState,
+        sheetPeekHeight = 0.dp,
+        sheetContainerColor = Color.White
+    ) {
+        HomePage(
+            modifier = modifier
+                .fillMaxSize()
+                .background(color = white),
+            header = {
+                HeaderDesign(
+                    modifier = Modifier.padding(top = 16.dp, start = 16.dp, end = 16.dp),
+                    title = {
                         Text(
-                            text = stringResource(R.string.mondolibug_sylhet),
+                            text = stringResource(R.string.store_location),
                             style = TextStyle(
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.SemiBold
+                                fontSize = 12.sp,
                             )
                         )
-                    }
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Image(
+                                painter = painterResource(id = R.drawable.locationicon),
+                                contentDescription = stringResource(R.string.location)
+                            )
+                            Text(
+                                text = stringResource(R.string.mondolibug_sylhet),
+                                style = TextStyle(
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.SemiBold
+                                )
+                            )
+                        }
 
-                },
-                leadingIcon = {
-                    CustomIcon(
-                        icon = R.drawable.menu,
-                        contentDescription = stringResource(R.string.menu)
-                    ) {
-                        //TODO menu button action here
-                    }
-                }, trailingIcon = {
-                    Box {
+                    },
+                    leadingIcon = {
                         CustomIcon(
-                            icon = R.drawable.bag,
-                            contentDescription = stringResource(R.string.bag)
+                            icon = R.drawable.menu,
+                            contentDescription = stringResource(R.string.menu)
+                        ) {
+                            scope.launch { bottomSheetState.bottomSheetState.expand() }
+                        }
+                    }, trailingIcon = {
+                        Box {
+                            CustomIcon(
+                                icon = R.drawable.bag,
+                                contentDescription = stringResource(R.string.bag)
+                            ) {
+
+                            }
+                            Circle(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .padding(top = 5.dp)
+                            )
+                        }
+                    }
+                )
+            },
+            search = {
+                CustomSearchBar(
+                    value = searchValue,
+                    onValueChange = { searchValue = it },
+                    placeholder = { Text(text = stringResource(R.string.looking_for_shoes)) },
+                    leadingIcon = {
+                        CustomIcon(
+                            icon = R.drawable.search,
+                            contentDescription = stringResource(R.string.search),
+                            background = false
                         ) {
 
                         }
-                        Circle(
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .padding(top = 5.dp)
-                        )
-                    }
-                }
-            )
-        },
-        search = {
-            CustomSearchBar(
-                value = searchValue,
-                onValueChange = { searchValue = it },
-                placeholder = { Text(text = stringResource(R.string.looking_for_shoes)) },
-                leadingIcon = {
-                    CustomIcon(
-                        icon = R.drawable.search,
-                        contentDescription = stringResource(R.string.search),
-                        background = false
-                    ) {
-
-                    }
-                },
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-        },
-        company = {
-            LazyRow(
-                modifier = Modifier.padding(vertical = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                item {
-                }
-                items(DataModel.getShoesData(), key = { it.id }) {
-                    CompanyNameButton(
-                        data = it,
-                        index = it.id,
-                        isSelected = selectedCompany == it.id,
-                    ) { value ->
-                        selectedCompany = value
-                        scope.launch { bottomSheetState.bottomSheetState.expand() }
-                    }
-                }
-            }
-
-        },
-        content = {
-            // Popular Shoes
-            item {
-                StickyHeaderDesign(
-                    modifier = Modifier.padding(top = 8.dp),
-                    header = stringResource(R.string.popular_shoes)
-                ) {
-                    //TODO see all action will be here
-                }
-            }
-            // each shoe item
-            item {
+                    },
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            },
+            company = {
                 LazyRow(
+                    modifier = Modifier.padding(vertical = 20.dp),
+                    verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     item {
                     }
-                    items(shoeList) {
-                        ShoeItem(shoeData = it) {
-                            //TODO add to cart action will be here
+                    items(DataModel.getShoesData(), key = { it.id }) {
+                        CompanyNameButton(
+                            data = it,
+                            index = it.id,
+                            isSelected = selectedCompany == it.id,
+                        ) { value ->
+                            selectedCompany = value
+                        }
+                    }
+                }
+
+            },
+            content = {
+                // Popular Shoes
+                item {
+                    StickyHeaderDesign(
+                        modifier = Modifier.padding(top = 8.dp),
+                        header = stringResource(R.string.popular_shoes)
+                    ) {
+                        //TODO see all action will be here
+                    }
+                }
+                // each shoe item
+                item {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        item {
+                        }
+                        items(shoeList) {
+                            ShoeItem(shoeData = it) {
+                                //TODO add to cart action will be here
+                            }
+
                         }
 
                     }
 
                 }
-
-            }
-            // New Arrivals
-            item {
-                StickyHeaderDesign(
-                    modifier = Modifier.padding(top = 16.dp),
-                    header = stringResource(R.string.new_arrivals)
-                ) {
-                    //TODO see all action will be here
+                // New Arrivals
+                item {
+                    StickyHeaderDesign(
+                        modifier = Modifier.padding(top = 16.dp),
+                        header = stringResource(R.string.new_arrivals)
+                    ) {
+                        //TODO see all action will be here
+                    }
                 }
-            }
-            // new item
-            item {
-                LazyRow(
-                    horizontalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    item { }
-                    items(shoeList) {
-                        Box(
-                            modifier = Modifier.fillParentMaxWidth(0.8f)
-                        ) {
-                            NewShowItem(shoeData = it)
+                // new item
+                item {
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        item { }
+                        items(shoeList) {
+                            Box(
+                                modifier = Modifier.fillParentMaxWidth(0.8f)
+                            ) {
+                                NewShowItem(shoeData = it)
+                            }
                         }
                     }
                 }
-            }
-
-        }
-    )
-
-    BottomSheetScaffold(
-        sheetContent = {
-            ReadyBottomSheetForHomePage() {
-                // TODO apply filter action will be here
 
             }
-        },
-        scaffoldState = bottomSheetState,
-        sheetPeekHeight = 0.dp,
-        containerColor = Color.White,
-    ) {
+        )
     }
 
 //    // modal bottom sheet

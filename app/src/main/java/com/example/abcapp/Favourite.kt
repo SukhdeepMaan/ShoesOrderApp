@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,8 +24,8 @@ import com.example.abcapp.ui.theme.white
 @Composable
 fun FavouriteOrBestSeller(
     modifier: Modifier = Modifier,
-    header: @Composable (()-> Unit)? = null,
-    content:  LazyGridScope.() -> Unit
+    header: @Composable (() -> Unit)? = null,
+    content: LazyGridScope.() -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxSize()
@@ -32,7 +33,7 @@ fun FavouriteOrBestSeller(
         header?.invoke()
         LazyVerticalGrid(
             modifier = Modifier.padding(16.dp),
-            columns = GridCells.Adaptive(128.dp),
+            columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -52,7 +53,8 @@ fun FavouriteReady(modifier: Modifier = Modifier) {
                     .background(color = Color.Transparent)
                     .padding(top = 16.dp, start = 16.dp, end = 16.dp),
                 title = {
-                    Text(text = "Favourite",
+                    Text(
+                        text = stringResource(R.string.favourite),
                         style = TextStyle(
                             fontWeight = FontWeight.SemiBold
                         )
@@ -77,10 +79,10 @@ fun FavouriteReady(modifier: Modifier = Modifier) {
         },
         content = {
             items(shoeList) {
-                ShoeItem(
-                    modifier = Modifier.height(240.dp),
+                ShoeItem1(
                     shoeData = it,
-                    isFavorite = true) {
+                    isFavorite = true
+                ) {
 
                 }
             }

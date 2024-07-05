@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderColors
 import androidx.compose.material3.SliderDefaults
@@ -57,7 +58,6 @@ private fun BottomSheetForHomePage(
     Column(
         modifier = modifier
             .fillMaxWidth()
-            .background(color = Color(0xFFFFFFFF))
     ) {
         header()
         content()
@@ -76,10 +76,14 @@ private fun BottomSheetView() {
 @Composable
 fun ReadyBottomSheetForHomePage(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit) {
+    onClick: () -> Unit
+) {
     var selectedGender by remember { mutableIntStateOf(0) }
     var selectedSize by remember { mutableIntStateOf(1) }
     var sliderValue by remember { mutableFloatStateOf(0f) }
+    var points by remember {
+        mutableStateOf(0f..100f)
+    }
     BottomSheetForHomePage(
         header = {
             HeaderDesign(
@@ -96,7 +100,6 @@ fun ReadyBottomSheetForHomePage(
                 trailingIcon = {
                     TextButton(
                         onClick = {
-                            //TODO RESET action will be here
                             selectedGender = 0
                             selectedSize = 1
                             sliderValue = 0f
@@ -113,7 +116,8 @@ fun ReadyBottomSheetForHomePage(
         },
         content = {
             // Gender Selection
-            Text( text = "Gender",
+            Text(
+                text = "Gender",
                 modifier = Modifier.padding(16.dp),
                 style = TextStyle(
                     fontSize = 18.sp,
@@ -130,7 +134,8 @@ fun ReadyBottomSheetForHomePage(
                 }
             )
             // Size Selection
-            Text( text = "Size",
+            Text(
+                text = "Size",
                 modifier = Modifier.padding(16.dp),
                 style = TextStyle(
                     fontSize = 18.sp,
@@ -147,23 +152,25 @@ fun ReadyBottomSheetForHomePage(
                 }
             )
             // Price Range
-            Text( text = "Price",
+            Text(
+                text = "Price",
                 modifier = Modifier.padding(16.dp),
                 style = TextStyle(
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold
                 )
             )
-            // price range slider
-            Slider(
-                value = sliderValue ,
-                onValueChange = {sliderValue = it},
-                modifier = Modifier.padding(horizontal = 16.dp),
-                valueRange = 0f..2000f,
+            RangeSlider(
+                value = points,
+                onValueChange = {
+                    points = it
+                },
+                modifier = modifier.padding(horizontal = 16.dp),
+                valueRange = 0f..400.0f,
                 colors = SliderDefaults.colors(
-                    thumbColor = cornflowerBlue,
+                    thumbColor = Color.White,
                     activeTrackColor = cornflowerBlue,
-                    inactiveTrackColor = unselectedColor
+                    activeTickColor = cornflowerBlue
                 )
             )
             // Price Range
@@ -174,14 +181,14 @@ fun ReadyBottomSheetForHomePage(
             ) {
                 Text(
                     modifier = Modifier.weight(1f),
-                    text = "$${sliderValue.toInt()}",
+                    text = "$${points.start.toInt()}",
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
                     )
                 )
                 Text(
-                    text = "$${sliderValue.toInt()}",
+                    text = "$${points.endInclusive.toInt()}",
                     style = TextStyle(
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold
@@ -194,7 +201,7 @@ fun ReadyBottomSheetForHomePage(
                 onClick = onClick,
                 buttonColor = cornflowerBlue,
                 contentColor = Color.White,
-                ) {
+            ) {
                 Text(text = "Apply")
             }
         }
@@ -210,10 +217,10 @@ fun ButtonListRow(
 ) {
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
         item {}
-        itemsIndexed(buttonList) {
-                index, item ->
+        itemsIndexed(buttonList) { index, item ->
             Button(
                 onClick = { onClick(index) },
                 colors = ButtonDefaults.buttonColors(
