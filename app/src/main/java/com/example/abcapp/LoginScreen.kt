@@ -1,6 +1,5 @@
 package com.example.abcapp
 
-import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -8,7 +7,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,9 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
@@ -45,37 +40,36 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.ui.draw.clip
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.geometry.Size
-import androidx.compose.ui.graphics.Outline
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.LayoutDirection
+import androidx.navigation.NavHostController
+import com.example.abcapp.navigation.ScreenRoute
 import com.example.abcapp.ui.theme.cornflowerBlue
 
 
 @Composable
-fun ShoeApp(modifier: Modifier = Modifier) {
-    var username by remember { mutableStateOf("") }
+fun LoginScreen(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController
+) {
+    var username by rememberSaveable { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordShow by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
-            .background(Color(0XFFD8D8D8))
+            .background(Color(0XFFF8F9FA))
             .fillMaxSize()
     ) {
         // BackArrow(modifier = Modifier.padding(24.dp))
-        BackArrow2(modifier = Modifier.padding(24.dp))
+        BackArrow2(modifier = Modifier.padding(24.dp)) {
+            navHostController.navigateUp()
+        }
         LazyColumn(
             modifier = Modifier
                 .weight(1f, fill = true)
@@ -110,12 +104,11 @@ fun ShoeApp(modifier: Modifier = Modifier) {
                     // password recovery
                     CustomTextButton(
                         text = stringResource(R.string.recovery_password),
-                        onClick = { })
+                        onClick = {
+                            navHostController.navigate(ScreenRoute.FORGET_PASSWORD.route)
+                        })
 
                     // sign in buttons
-                    SignInButtons()
-                    SignInButtons()
-                    SignInButtons()
                     SignInButtons()
 
 
@@ -128,7 +121,9 @@ fun ShoeApp(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.don_t_have_an_account),
             buttonText = stringResource(R.string.sign_up_for_free),
-            onClick = { },
+            onClick = {
+                navHostController.navigate(ScreenRoute.REGISTER.route)
+            },
             buttonColor = Color.Black,
             fontWeight = FontWeight.Bold
 
@@ -290,9 +285,9 @@ fun BackArrow(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BackArrow2(modifier: Modifier = Modifier) {
+fun BackArrow2(modifier: Modifier = Modifier, onClick: () -> Unit = {}) {
 
-    IconButton(onClick = {}, modifier = modifier.drawBehind {
+    IconButton(onClick = onClick, modifier = modifier.drawBehind {
         drawCircle(
             color = Color.White
         )

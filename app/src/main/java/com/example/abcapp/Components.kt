@@ -125,6 +125,18 @@ fun HeaderDesign(
             trailingIcon?.invoke(this)
         }
     }
+
+    Column {
+        Row {
+            Column {
+                Row {
+                    Column {
+                        Box {}
+                    }
+                }
+            }
+        }
+    }
 }
 
 

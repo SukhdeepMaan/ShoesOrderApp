@@ -18,9 +18,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.example.abcapp.navigation.ScreenRoute
 
 @Composable
-fun ShoeAppSignUp(modifier: Modifier = Modifier) {
+fun ShoeAppSignUp(modifier: Modifier = Modifier, navHostController: NavHostController) {
 
     var name by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
@@ -30,9 +32,11 @@ fun ShoeAppSignUp(modifier: Modifier = Modifier) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0XFFD8D8D8))
+            .background(Color(0XFFF8F9FA))
     ) {
-        BackArrow2(modifier = Modifier.padding(24.dp))
+        BackArrow2(modifier = Modifier.padding(24.dp)) {
+            navHostController.navigateUp()
+        }
         Column(
             modifier = Modifier
                 .weight(1f)
@@ -49,12 +53,10 @@ fun ShoeAppSignUp(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(48.dp))
             // header and input field
             // name
-            HeaderAndInputField(
-                header = stringResource(R.string.your_name),
+            HeaderAndInputField(header = stringResource(R.string.your_name),
                 value = name,
                 placeholder = stringResource(R.string.enter_name),
-                onValueChange = { name = it }
-            )
+                onValueChange = { name = it })
 
             // email address
             HeaderAndInputField(
@@ -66,14 +68,12 @@ fun ShoeAppSignUp(modifier: Modifier = Modifier) {
                 email = it
             }
             // password
-            HeaderAndInputField(
-                header = stringResource(id = R.string.password),
+            HeaderAndInputField(header = stringResource(id = R.string.password),
                 value = password,
                 placeholder = stringResource(id = R.string.password),
                 isShowIcon = true,
                 isPasswordShow = isPassShow,
-                onClick = { isPassShow = !isPassShow }
-            ) {
+                onClick = { isPassShow = !isPassShow }) {
                 password = it
             }
             // sign in buttons
@@ -85,9 +85,21 @@ fun ShoeAppSignUp(modifier: Modifier = Modifier) {
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(R.string.already_have_an_account),
             buttonText = stringResource(R.string.sign_in),
-            onClick = { },
+            onClick = {
+                //  navHostController.navigateUp()
+                //navHostController.navigate(ScreenRoute.LOGIN.route)
+                navHostController.navigate(ScreenRoute.LOGIN.route) {
+                    popUpTo(ScreenRoute.LOGIN.route) {
+                        inclusive = true
+                    }
+                }
+            },
             buttonColor = Color.Black,
             fontWeight = FontWeight.Bold
         )
     }
 }
+
+/*
+      A -> B-> C -> D -> E -> F -> C
+ */

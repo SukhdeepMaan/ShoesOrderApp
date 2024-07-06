@@ -16,13 +16,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.ui.theme.cornflowerBlue
 
 @Composable
-fun RecoveryPassword(modifier: Modifier = Modifier) {
+fun RecoveryPassword(modifier: Modifier = Modifier,navHostController: NavHostController) {
     var emailAddress by remember { mutableStateOf("") }
     Column(modifier = modifier.fillMaxSize()) {
-        BackArrow2(modifier = Modifier.padding(24.dp))
+        BackArrow2(modifier = Modifier.padding(24.dp)){
+            navHostController.navigateUp()
+        }
         Column(
             modifier = Modifier
                 .fillMaxSize()

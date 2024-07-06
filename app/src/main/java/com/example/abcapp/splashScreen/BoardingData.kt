@@ -12,7 +12,7 @@ val boardingData = listOf(
     BoardingData(
         image = R.drawable.splash_shoe_one,
         title = "Start Journey With Nike",
-        description = "Smart, Gorgeous & Fashionable Collection"
+        description = "Smart, Gorgeous & Fashionable\nCollection"
     ),
     BoardingData(
         image = R.drawable.splash_shoe_two,
