@@ -4,10 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -16,11 +12,13 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.data.shoeList
+import com.example.abcapp.navigation.ScreenRoute
 import com.example.abcapp.ui.theme.white
 
 @Composable
-fun BestSeller(modifier: Modifier = Modifier) {
+fun BestSeller(modifier: Modifier = Modifier, navHostController: NavHostController) {
     FavouriteOrBestSeller(
         modifier = modifier.background(color = white),
         header = {
@@ -38,7 +36,9 @@ fun BestSeller(modifier: Modifier = Modifier) {
                     CustomIcon(
                         icon = R.drawable.arrow,
                         contentDescription = "Arrow",
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            navHostController.popBackStack()
+                        }
                     )
                 },
                 trailingIcon = {
@@ -63,7 +63,11 @@ fun BestSeller(modifier: Modifier = Modifier) {
             ShoeItem(
                 modifier = Modifier.height(240.dp),
                 shoeData = it,
-                isFavorite = true) {
+                isFavorite = true,
+                onClick = {
+                    navHostController.navigate(ScreenRoute.DETAIL.route)
+                }
+            ) {
             }
         }
 

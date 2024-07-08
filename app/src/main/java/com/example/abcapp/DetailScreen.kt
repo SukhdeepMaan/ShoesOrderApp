@@ -49,10 +49,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.components.AppIcon
 import com.example.abcapp.data.ShoeData
 import com.example.abcapp.data.imageList
 import com.example.abcapp.data.sizeType
+import com.example.abcapp.navigation.ScreenRoute
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.ovalGradientColor
 import com.example.abcapp.ui.theme.white
@@ -87,7 +89,7 @@ fun DetailScreenDesign(
 fun DetailScreen(
     modifier: Modifier = Modifier,
     shoeData: ShoeData,
-
+    navHostController: NavHostController,
     ) {
     var selectedSize by remember { mutableIntStateOf(10) }
     var shoeSizeType by remember {
@@ -109,25 +111,22 @@ fun DetailScreen(
             CustomIcon(
                 icon = R.drawable.arrow,
                 contentDescription = stringResource(R.string.back_arrow),
-                onClick = {/*TODO*/ },
+                onClick = {
+                    navHostController.popBackStack()
+                },
             )
         }, trailingIcon = {
             CustomIcon(icon = R.drawable.bag,
                 contentDescription = stringResource(R.string.bag),
-                onClick = {/*TODO*/ })
+                onClick = {
+                    navHostController.navigate(ScreenRoute.CART.route)
+                })
         }
 
         )
     }, content = {
         item {
             Box {
-                HorizontalPager(state = pagerState) {
-                    Image(
-                        modifier = Modifier.fillMaxWidth(),
-                        painter = painterResource(id = R.drawable.nike_1),
-                        contentDescription = shoeData.name,
-                    )
-                }
                 OvalShape(
                     modifier = Modifier
                         .padding(horizontal = 20.dp)
@@ -135,6 +134,13 @@ fun DetailScreen(
                             Alignment.BottomCenter
                         )
                 )
+                HorizontalPager(state = pagerState) {
+                    Image(
+                        modifier = Modifier.fillMaxWidth(),
+                        painter = painterResource(id = R.drawable.nike_1),
+                        contentDescription = shoeData.name,
+                    )
+                }
                 PagerButtonComponent(
                     modifier
                         .offset(x = 0.dp, y = 20.dp)
@@ -258,6 +264,8 @@ fun DetailScreen(
                 fontSize = 20.sp, fontWeight = FontWeight.SemiBold
             )
         ) {
+            // add to cart button  pass data to cart screen
+            navHostController.navigate(ScreenRoute.CART.route)
         }
     })
 }

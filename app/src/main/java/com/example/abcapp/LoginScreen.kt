@@ -62,7 +62,7 @@ fun LoginScreen(
     var isPasswordShow by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .background(Color(0XFFF8F9FA))
             .fillMaxSize()
     ) {
@@ -109,7 +109,14 @@ fun LoginScreen(
                         })
 
                     // sign in buttons
-                    SignInButtons()
+                    SignInButtons(
+                        onClick = {
+                            navHostController.navigate(ScreenRoute.HOME.route)
+                        },
+                        onClickWithGoogle = {
+                            navHostController.navigate(ScreenRoute.HOME.route)
+                        }
+                    )
 
 
                 }
@@ -195,11 +202,11 @@ fun CustomButton(
 }
 
 @Composable
-fun SignInButtons() {
+fun SignInButtons(onClick: () -> Unit = {}, onClickWithGoogle: () -> Unit = {}) {
     Spacer(modifier = Modifier.height(48.dp))
     // Sign in button
     CustomButton(
-        onClick = { /*TODO*/ }, buttonColor = cornflowerBlue, contentColor = Color.White
+        onClick = onClick, buttonColor = cornflowerBlue, contentColor = Color.White
     ) {
         Text(text = "Sign In", fontSize = 18.sp)
     }
@@ -207,7 +214,7 @@ fun SignInButtons() {
 
     // google sign in button
     CustomButton(
-        onClick = { /*TODO*/ }, buttonColor = Color.White
+        onClick = onClickWithGoogle, buttonColor = Color.White
     ) {
         Image(
             painter = painterResource(id = R.drawable.google), contentDescription = "Google button"
@@ -259,7 +266,7 @@ fun HeaderAndInputField(
                 }
             },
             visualTransformation = if (isPasswordShow) VisualTransformation.None else PasswordVisualTransformation(),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(24.dp),
             textStyle = TextStyle(
                 fontWeight = FontWeight.Bold,
             )

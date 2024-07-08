@@ -15,15 +15,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,33 +39,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.abcapp.components.SpacerWidth
 import com.example.abcapp.data.ShoeData
-import com.example.abcapp.data.shoeList
 import com.example.abcapp.ui.theme.black
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGrey
-
-
-var mapList = mapOf(
-    R.drawable.nike to "Nike",
-    R.drawable.adidas to "Adidas",
-    R.drawable.puma to "Puma",
-    R.drawable.converse to "Converse",
-    R.drawable.under_armour to "Under Armour",
-)
 
 data class Shoes(
     val id: Int, val name: String, @DrawableRes val icon: Int
@@ -190,7 +172,6 @@ fun Circle(modifier: Modifier = Modifier, color: Color = Color.Red, size: Int = 
 //    }
 }
 
-
 // search bar
 
 @Composable
@@ -216,8 +197,8 @@ fun CustomSearchBar(
             imeAction = ImeAction.Search
         ),
         colors = TextFieldDefaults.colors(
-            focusedIndicatorColor = Color.Unspecified,
-            unfocusedIndicatorColor = Color.Unspecified,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
             focusedContainerColor = Color.White,
             unfocusedContainerColor = Color.White,
         ),
@@ -293,7 +274,9 @@ fun ShoeItem(
     modifier: Modifier = Modifier,
     shoeData: ShoeData,
     isFavorite: Boolean = false,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onClickBestSeller: () -> Unit = {},
+    onClickPlusButton: () -> Unit = {}
 ) {
     Box(
         modifier = modifier
@@ -302,6 +285,9 @@ fun ShoeItem(
                 color = Color.White, shape = RoundedCornerShape(16.dp)
             )
             .padding(start = 8.dp)
+            .clickable {
+                onClick()
+            }
     ) {
         Column(modifier = modifier.padding(bottom = 8.dp)) {
             Image(
@@ -314,13 +300,13 @@ fun ShoeItem(
                 contentDescription = shoeData.name
             )
             Spacer(modifier = Modifier.height(8.dp))
-            NamePriceAndDes(shoeData = shoeData)
+            NamePriceAndDes(shoeData = shoeData, onClickBestSeller = onClickBestSeller)
         }
         // Add to cart button
         if (!isFavorite) {
             Button(
                 modifier = Modifier.align(Alignment.BottomEnd),
-                onClick = onClick,
+                onClick = onClickPlusButton,
                 shape = RoundedCornerShape(
                     topStart = 30.dp, bottomEnd = 16.dp
                 ),
@@ -340,7 +326,7 @@ fun ShoeItem(
                 icon = R.drawable.heart,
                 contentDescription = "Heart",
                 background = true,
-                onClick = onClick
+                onClick = onClickPlusButton
             )
             // Color list
 
@@ -368,7 +354,6 @@ fun ShoeItem1(
     isFavorite: Boolean = false,
     onClick: () -> Unit
 ) {
-
     Box(
         modifier = modifier.background(
             color = Color.White, shape = RoundedCornerShape(16.dp)
@@ -421,11 +406,6 @@ fun ShoeItem1(
     }
 }
 
-@Preview
-@Composable
-private fun ab() {
-    NewShowItem(shoeData = shoeList[1])
-}
 
 // NewShowItem
 @Composable
@@ -454,20 +434,25 @@ fun NewShowItem(
 
 @Composable
 fun NamePriceAndDes(
-    modifier: Modifier = Modifier, shoeData: ShoeData, nameStyle: TextStyle = TextStyle(
+    modifier: Modifier = Modifier,
+    shoeData: ShoeData,
+    nameStyle: TextStyle = TextStyle(
         fontSize = 18.sp, fontWeight = FontWeight.SemiBold
     ), priceStyle: TextStyle = TextStyle(
         fontSize = 18.sp, fontWeight = FontWeight.SemiBold
-    ), isPriceShow: Boolean = true
+    ), isPriceShow: Boolean = true,
+    onClickBestSeller: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
     ) {
         Text(
+            modifier = Modifier.clickable { onClickBestSeller() },
             text = shoeData.description, color = cornflowerBlue, style = TextStyle(
                 fontSize = 14.sp
             )
         )
+
         Text(
             modifier = Modifier.padding(vertical = 8.dp), text = shoeData.name, style = nameStyle
         )

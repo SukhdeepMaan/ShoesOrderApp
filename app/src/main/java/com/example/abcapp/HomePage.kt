@@ -37,13 +37,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.data.shoeList
+import com.example.abcapp.navigation.ScreenRoute
 import com.example.abcapp.ui.theme.white
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeDesigning(modifier: Modifier = Modifier) {
+fun HomeDesigning(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController
+) {
     var searchValue by remember { mutableStateOf("") }
     var selectedCompany by remember { mutableIntStateOf(DataModel.getShoesData()[0].id) }
     val scope = rememberCoroutineScope()
@@ -52,7 +57,10 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
 
     BottomSheetScaffold(
         sheetContent = {
-            ReadyBottomSheetForHomePage() {}
+            ReadyBottomSheetForHomePage() {
+                // it is giving error
+                //scope.launch { bottomSheetState.bottomSheetState.hide() }
+            }
         },
         scaffoldState = bottomSheetState,
         sheetPeekHeight = 0.dp,
@@ -100,7 +108,8 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
                                 icon = R.drawable.bag,
                                 contentDescription = stringResource(R.string.bag)
                             ) {
-
+                                //bag action will be here
+                                navHostController.navigate(ScreenRoute.CART.route)
                             }
                             Circle(
                                 modifier = Modifier
@@ -166,10 +175,20 @@ fun HomeDesigning(modifier: Modifier = Modifier) {
                         item {
                         }
                         items(shoeList) {
-                            ShoeItem(shoeData = it) {
-                                //TODO add to cart action will be here
-                            }
-
+                            ShoeItem(shoeData = it,
+                                onClick = {
+                                    // detail screen navigation
+                                    navHostController.navigate(ScreenRoute.DETAIL.route)
+                                },
+                                onClickBestSeller = {
+                                    // best seller action will be here
+                                    navHostController.navigate(ScreenRoute.BEST_SELLER.route)
+                                },
+                                onClickPlusButton = {
+                                    // add to cart action will be here
+                                    navHostController.navigate(ScreenRoute.CART.route)
+                                }
+                            )
                         }
 
                     }

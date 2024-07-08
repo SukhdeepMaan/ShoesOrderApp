@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
@@ -18,6 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.abcapp.data.shoeList
 import com.example.abcapp.ui.theme.white
 
@@ -43,7 +43,7 @@ fun FavouriteOrBestSeller(
 }
 
 @Composable
-fun FavouriteReady(modifier: Modifier = Modifier) {
+fun FavouriteReady(modifier: Modifier = Modifier, navHostController: NavHostController) {
     FavouriteOrBestSeller(
         modifier = modifier
             .background(color = white),

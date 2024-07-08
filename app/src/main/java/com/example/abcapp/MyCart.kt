@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,6 +39,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.components.AppIcon
 import com.example.abcapp.data.MyCartData
 import com.example.abcapp.data.myCartList
@@ -47,7 +47,7 @@ import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGreyForBackGround
 
 @Composable
-fun MyCartReady(modifier: Modifier = Modifier) {
+fun MyCartReady(modifier: Modifier = Modifier, navHostController: NavHostController) {
     var isRefresh by remember { mutableStateOf(false) }
     val data by remember {
         mutableStateOf(myCartList)
@@ -67,7 +67,9 @@ fun MyCartReady(modifier: Modifier = Modifier) {
                 CustomIcon(
                     icon = R.drawable.arrow,
                     contentDescription = stringResource(id = R.string.back_arrow)
-                )
+                ) {
+                    navHostController.popBackStack()
+                }
             }
         )
     }, content = {
