@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Button
@@ -232,6 +233,8 @@ fun HeaderAndInputField(
     placeholder: String,
     isShowIcon: Boolean = false,
     isPasswordShow: Boolean = true,
+    keyboardOption: KeyboardOptions = KeyboardOptions(),
+    singleLine:Boolean=true,
     onClick: () -> Unit = {},
     onValueChange: (String) -> Unit,
 ) {
@@ -269,7 +272,9 @@ fun HeaderAndInputField(
             shape = RoundedCornerShape(24.dp),
             textStyle = TextStyle(
                 fontWeight = FontWeight.Bold,
-            )
+            ),
+            keyboardOptions = keyboardOption,
+            singleLine = singleLine
         )
     }
 }

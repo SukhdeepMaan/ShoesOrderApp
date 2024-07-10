@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -66,7 +67,7 @@ fun AccountAndSettings(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(vertical = 12.dp),
                 title = {
                     Text(
-                        text = "Account & Settings",
+                        text = stringResource(R.string.account_settings),
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
@@ -86,7 +87,7 @@ fun AccountAndSettings(modifier: Modifier = Modifier) {
         content = {
             item {
                 Text(
-                    text = "Account",
+                    text = stringResource(R.string.account),
                     style = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold
@@ -105,7 +106,7 @@ fun AccountAndSettings(modifier: Modifier = Modifier) {
             }
             item {
                 Text(
-                    text = "App Settings",
+                    text = stringResource(R.string.app_settings),
                     style = TextStyle(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold

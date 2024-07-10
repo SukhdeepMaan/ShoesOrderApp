@@ -13,7 +13,8 @@ data class NotificationData (
      val time : String,
      var isRead : Boolean,
      val topPrice : Double,
-     val bottomPrice : Double
+     val bottomPrice : Double,
+     val type:String
  )
 
 var notificationList = listOf(
@@ -25,7 +26,8 @@ var notificationList = listOf(
         time = "2024-07-10 09:12:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Today"
     ),
     NotificationData(
         id = 2,
@@ -35,7 +37,8 @@ var notificationList = listOf(
         time = "2024-07-10 04:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Today"
     ),
     NotificationData(
         id = 3,
@@ -45,7 +48,8 @@ var notificationList = listOf(
         time = "2024-07-09 11:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Today"
     ),
     NotificationData(
         id = 4,
@@ -55,7 +59,8 @@ var notificationList = listOf(
         time = "2024-07-06 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Today"
     ),
     NotificationData(
         id = 5,
@@ -65,7 +70,8 @@ var notificationList = listOf(
         time = "2024-07-05 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Today"
     ),
     NotificationData(
         id = 6,
@@ -75,7 +81,8 @@ var notificationList = listOf(
         time = "2024-07-04 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Yesterday"
     ),
     NotificationData(
         id = 7,
@@ -85,7 +92,8 @@ var notificationList = listOf(
         time = "2024-07-03 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Yesterday"
     ),
     NotificationData(
         id = 8,
@@ -95,7 +103,8 @@ var notificationList = listOf(
         time = "2024-07-02 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Yesterday"
     ),
     NotificationData(
         id = 9,
@@ -105,7 +114,8 @@ var notificationList = listOf(
         time = "2024-07-01 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Yesterday"
     ),
     NotificationData(
         id = 10,
@@ -115,7 +125,8 @@ var notificationList = listOf(
         time = "2023-06-01 14:30:00",
         isRead = false,
         topPrice = 897.00,
-        bottomPrice = 493.00
+        bottomPrice = 493.00,
+        type = "Yesterday"
     )
 )
 

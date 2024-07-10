@@ -27,7 +27,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = ScreenRoute.NOTIFICATION.route
+        startDestination = ScreenRoute.ACCOUNT_SETTINGS.route
     ) {
         composable(
             route = ScreenRoute.ONBOARDING.route

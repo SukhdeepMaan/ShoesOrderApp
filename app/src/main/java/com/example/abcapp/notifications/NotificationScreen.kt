@@ -21,16 +21,11 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,11 +38,9 @@ import com.example.abcapp.R
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGreyForBackGround
 import com.example.abcapp.ui.theme.unselectedTextColor
-import com.example.abcapp.ui.theme.white
 
 @Composable
 fun NotificationScreen(modifier: Modifier = Modifier) {
-    var notificationDataListMutable by remember { mutableStateOf(notificationList) }
     NotificationScreenDesign(
         modifier = modifier,
         header = {
@@ -55,7 +48,7 @@ fun NotificationScreen(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                 title = {
                     Text(
-                        text = "Notifications",
+                        text = stringResource(R.string.notifications),
                         style = TextStyle(
                             fontSize = 16.sp,
                             fontWeight = FontWeight.SemiBold
@@ -65,7 +58,7 @@ fun NotificationScreen(modifier: Modifier = Modifier) {
                 leadingIcon = {
                     CustomIcon(
                         icon = R.drawable.arrow,
-                        contentDescription = "Back",
+                        contentDescription = stringResource(R.string.back),
                         onClick = { /*TODO*/ }
                     )
                 },
@@ -73,58 +66,35 @@ fun NotificationScreen(modifier: Modifier = Modifier) {
                     TextButton(
                         onClick = {
                             // clear all
-                            notificationDataListMutable = notificationDataListMutable.map {
-                                it.copy(isRead = true)
-                            }
                         },
                         colors = ButtonDefaults.textButtonColors(
                             contentColor = cornflowerBlue
                         )
                     ) {
-                        Text(text = "Clear All")
+                        Text(text = stringResource(R.string.clear_all))
                     }
                 }
             )
 
         },
         content = {
-            item {
-                Text(
-                    text = "Today",
-                    modifier.padding(start = 20.dp, top = 8.dp),
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
+            val groupItem = notificationList.groupBy { it.type }
+            //map[0] -> today,list of data
+            // map[1] -> yesterday , list of data
+            groupItem.forEach { (type,data)->
+                item {
+                    Text(
+                        text = type,
+                        modifier.padding(start = 20.dp, top = 8.dp),
+                        style = TextStyle(
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
-                )
-            }
-            // today list
-            items(notificationDataListMutable, key = { it.id }) { item ->
-                NotificationItem(notificationData = item) {
-                    notificationDataListMutable = notificationDataListMutable.map {
-                        if (it.id == item.id) {
-                            it.copy(isRead = true)
-                        } else it
-                    }
                 }
-            }
-            item {
-                Text(
-                    text = "Yesterday",
-                    modifier.padding(start = 20.dp, top = 8.dp),
-                    style = TextStyle(
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
-            }
-            // yesterday list
-            items(notificationDataListMutable, key = { it.id }) { item ->
-                NotificationItem(notificationData = item) {
-                    notificationDataListMutable = notificationDataListMutable.map {
-                        if (it.id == item.id) {
-                            it.copy(isRead = true)
-                        } else it
+                items(data, key = {it.id}){
+                    NotificationItem(notificationData = it) {
+
                     }
                 }
             }

@@ -44,4 +44,20 @@
     <string name="favourite">Favourite</string>
     <string name="get_started">Get Started</string>
     <string name="next">Next</string>
+    <string name="notifications">Notifications</string>
+    <string name="back">Back</string>
+    <string name="clear_all">Clear All</string>
+    <string name="profile">Profile</string>
+    <string name="arrow">Arrow</string>
+    <string name="heart">Heart</string>
+    <string name="alisson_becker">Alisson Becker</string>
+    <string name="full_name">Full Name</string>
+    <string name="enter_full_name">Enter Full Name</string>
+    <string name="email_">Email</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="password_">Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="account_settings"><![CDATA[Account & Settings]]></string>
+    <string name="account">Account</string>
+    <string name="app_settings">App Settings</string>
 </resources>

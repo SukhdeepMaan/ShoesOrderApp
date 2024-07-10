@@ -12,9 +12,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,9 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.abcapp.CustomIcon
@@ -40,25 +45,29 @@ fun Profile(modifier: Modifier = Modifier) {
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    val keypad = LocalSoftwareKeyboardController.current
+    LaunchedEffect(key1 = Unit) {
+        keypad?.show()
+    }
     ProfileDesign(
         modifier = modifier,
         header = {
             HeaderDesign(
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 12.dp),
                 title = {
-                    Text(text = "Profile")
+                    Text(text = stringResource(R.string.profile))
                 },
                 leadingIcon = {
                     CustomIcon(
                         icon = R.drawable.arrow,
-                        contentDescription = "Arrow",
+                        contentDescription = stringResource(R.string.arrow),
                         onClick = { /*TODO*/ }
                     )
                 },
                 trailingIcon = {
                     CustomIcon(
                         icon = R.drawable.edit_icon,
-                        contentDescription = "Heart",
+                        contentDescription = stringResource(R.string.heart),
                         background = false,
                         onClick = { /*TODO*/ }
                     )
@@ -72,12 +81,16 @@ fun Profile(modifier: Modifier = Modifier) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Box(
-                        modifier = Modifier.background(color = Color(0xFFDFEFFF), shape = CircleShape)
+                        modifier = Modifier.background(
+                            color = Color(0xFFDFEFFF),
+                            shape = CircleShape
+                        )
                     ) {
                         Image(
                             modifier = Modifier.size(100.dp),
                             painter = painterResource(id = R.drawable.profile_photo),
-                            contentDescription = "")
+                            contentDescription = ""
+                        )
                         Icon(
                             modifier = Modifier
                                 .offset(x = 0.dp, y = 16.dp)
@@ -86,13 +99,14 @@ fun Profile(modifier: Modifier = Modifier) {
                                         color = cornflowerBlue
                                     )
                                 }
-                                .padding(4.dp)
+                                .padding(6.dp)
                                 .align(Alignment.BottomCenter),
                             painter = painterResource(id = R.drawable.camera_icon),
                             contentDescription = "",
                             tint = Color.White)
                     }
-                    Text(text = "Alisson Becker",
+                    Text(
+                        text = stringResource(R.string.alisson_becker),
                         modifier = Modifier.padding(top = 24.dp),
                         style = TextStyle(
                             fontSize = 20.sp,
@@ -101,22 +115,25 @@ fun Profile(modifier: Modifier = Modifier) {
                     )
                 }
                 HeaderAndInputField(
-                    header = "Full Name",
+                    header = stringResource(R.string.full_name),
                     value = fullName,
-                    placeholder = "Enter Full Name"
+                    placeholder = stringResource(R.string.enter_full_name),
+                    keyboardOption = KeyboardOptions(imeAction = ImeAction.Next)
                 ) { fullName = it }
 
                 HeaderAndInputField(
-                    header = "Email",
+                    header = stringResource(R.string.email_),
                     value = email,
-                    placeholder = "Enter Email"
+                    placeholder = stringResource(R.string.enter_email),
+                    keyboardOption = KeyboardOptions(imeAction = ImeAction.Next)
                 ) { email = it }
 
                 HeaderAndInputField(
-                    header = "Password",
+                    header = stringResource(R.string.password_),
                     value = password,
                     isPasswordShow = false,
-                    placeholder = "Enter Password"
+                    placeholder = stringResource(R.string.enter_password),
+                    keyboardOption = KeyboardOptions(imeAction = ImeAction.Done)
                 ) { password = it }
             }
         }
@@ -129,12 +146,17 @@ private fun ProfileDesign(
     header: @Composable () -> Unit,
     content: LazyListScope.() -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize().background(color = lightGreyForBackGround)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(color = lightGreyForBackGround)
+    ) {
         header()
         LazyColumn(
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)) {
+                .padding(horizontal = 20.dp)
+        ) {
             content.invoke(this)
         }
     }
