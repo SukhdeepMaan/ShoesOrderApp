@@ -1,6 +1,5 @@
-package com.example.abcapp.data
+package com.example.abcapp.myCart
 
-import androidx.compose.runtime.mutableStateListOf
 import com.example.abcapp.R
 
 data class MyCartData(

@@ -70,4 +70,5 @@ dependencies {
 
     //compose navigation
     implementation(libs.navigation.compose)
+    implementation ("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
 }

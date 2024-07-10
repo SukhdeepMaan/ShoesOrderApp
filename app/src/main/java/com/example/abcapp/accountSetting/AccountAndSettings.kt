@@ -1,5 +1,6 @@
 package com.example.abcapp.accountSetting
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +30,7 @@ import com.example.abcapp.CustomIcon
 import com.example.abcapp.HeaderDesign
 import com.example.abcapp.R
 import com.example.abcapp.ui.theme.cornflowerBlue
+import com.example.abcapp.ui.theme.lightGreyForBackGround
 import com.example.abcapp.ui.theme.unselectedColor
 
 @Composable
@@ -41,6 +43,7 @@ private fun AccountAndSettingsDesign(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(color = lightGreyForBackGround)
             .padding(horizontal = 20.dp)
     ) {
         header.invoke()
@@ -91,7 +94,7 @@ fun AccountAndSettings(modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(vertical = 24.dp)
                 )
             }
-            items(accountFeatureList) {
+            items(accountFeatureList, key = { it.name }) {
                 AccountListItem(
                     account = it,
                     modifier = Modifier.padding(vertical = 16.dp)
@@ -110,7 +113,7 @@ fun AccountAndSettings(modifier: Modifier = Modifier) {
                     modifier = Modifier.padding(vertical = 24.dp)
                 )
             }
-            items(appSettingsListMutable) { it ->
+            items(appSettingsListMutable, key = { it.name }) { it ->
                 AppSettingsItem(
                     appSettings = it,
                     modifier = Modifier.padding(vertical = 16.dp)

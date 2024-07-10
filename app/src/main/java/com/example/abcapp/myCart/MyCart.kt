@@ -1,4 +1,4 @@
-package com.example.abcapp
+package com.example.abcapp.myCart
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
@@ -40,9 +40,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.abcapp.CustomButton
+import com.example.abcapp.CustomIcon
+import com.example.abcapp.HeaderDesign
+import com.example.abcapp.R
 import com.example.abcapp.components.AppIcon
-import com.example.abcapp.data.MyCartData
-import com.example.abcapp.data.myCartList
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGreyForBackGround
 

@@ -33,6 +33,7 @@ import com.example.abcapp.HeaderAndInputField
 import com.example.abcapp.HeaderDesign
 import com.example.abcapp.R
 import com.example.abcapp.ui.theme.cornflowerBlue
+import com.example.abcapp.ui.theme.lightGreyForBackGround
 
 @Composable
 fun Profile(modifier: Modifier = Modifier) {
@@ -128,7 +129,7 @@ private fun ProfileDesign(
     header: @Composable () -> Unit,
     content: LazyListScope.() -> Unit
 ) {
-    Column(modifier = modifier.fillMaxSize()) {
+    Column(modifier = modifier.fillMaxSize().background(color = lightGreyForBackGround)) {
         header()
         LazyColumn(
             Modifier

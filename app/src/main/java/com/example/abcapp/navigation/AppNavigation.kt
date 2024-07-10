@@ -10,11 +10,12 @@ import com.example.abcapp.DetailScreen
 import com.example.abcapp.FavouriteReady
 import com.example.abcapp.HomeDesigning
 import com.example.abcapp.LoginScreen
-import com.example.abcapp.MyCartReady
+import com.example.abcapp.myCart.MyCartReady
 import com.example.abcapp.RecoveryPassword
 import com.example.abcapp.ShoeAppSignUp
 import com.example.abcapp.accountSetting.AccountAndSettings
 import com.example.abcapp.data.shoeList
+import com.example.abcapp.notifications.NotificationScreen
 import com.example.abcapp.profile.Profile
 import com.example.abcapp.splashScreen.OnBoardingScreen
 
@@ -26,7 +27,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = ScreenRoute.ACCOUNT_SETTINGS.route
+        startDestination = ScreenRoute.NOTIFICATION.route
     ) {
         composable(
             route = ScreenRoute.ONBOARDING.route
@@ -64,6 +65,9 @@ fun AppNavigation(modifier: Modifier = Modifier) {
         composable(ScreenRoute.ACCOUNT_SETTINGS.route) {
             AccountAndSettings()
         }
+        composable(ScreenRoute.NOTIFICATION.route) {
+            NotificationScreen()
+        }
 
     }
 
@@ -81,6 +85,7 @@ enum class ScreenRoute(val route: String) {
     BEST_SELLER("/bestSeller"),
     PROFILE("/profile"),
     ACCOUNT_SETTINGS("/accountSettings"),
+    NOTIFICATION("/notification")
 }
 
 //sealed class ScreenRoute(val route:String){
