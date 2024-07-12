@@ -171,7 +171,7 @@ private fun RowForBottomBarView() {
 }
 
 @Composable
-private fun RowForBottomBar(
+fun RowForBottomBar(
     modifier: Modifier = Modifier,
     title: String,
     titleStyle: TextStyle = TextStyle(),

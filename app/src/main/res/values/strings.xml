@@ -60,4 +60,13 @@
     <string name="account_settings"><![CDATA[Account & Settings]]></string>
     <string name="account">Account</string>
     <string name="app_settings">App Settings</string>
+    <string name="payment">Payment</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="shipping">Shipping</string>
+    <string name="total_cost">Total Cost</string>
+    <string name="check_out">Check Out</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="address">Address</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="paypal_card">Paypal Card</string>
 </resources>
