@@ -12,7 +12,7 @@ fun RowForBottomBar(
     modifier: Modifier = Modifier,
     title: String,
     titleStyle: TextStyle = TextStyle(),
-    price: Double,
+    price: String,
     priceStyle: TextStyle = TextStyle()
 ) {
     Row(modifier = modifier.fillMaxWidth()) {
@@ -20,7 +20,7 @@ fun RowForBottomBar(
             text = title, modifier = Modifier.weight(1f), style = titleStyle
         )
         Text(
-            text = "$${price}", style = priceStyle
+            text = price, style = priceStyle
         )
     }
 }

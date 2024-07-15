@@ -9,6 +9,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.abcapp.R
+import java.text.NumberFormat
+import java.util.Locale
 
 @Composable
 fun MyCartText(modifier: Modifier = Modifier) {
@@ -55,7 +57,7 @@ fun SubtotalTextAndPrice(modifier: Modifier = Modifier, price: Double) {
         modifier = modifier,
         title = stringResource(R.string.subtotal), titleStyle = TextStyle(
             color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight(600)
-        ), price = price, priceStyle = TextStyle(
+        ), price = formatPrice(price), priceStyle = TextStyle(
             fontSize = 16.sp, fontWeight = FontWeight.SemiBold
         )
     )
@@ -67,7 +69,7 @@ fun ShippingTextAndPrice(modifier: Modifier = Modifier, price: Double) {
         modifier = modifier,
         title = stringResource(id = R.string.shipping), titleStyle = TextStyle(
             color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight(600)
-        ), price = price, priceStyle = TextStyle(
+        ), price = formatPrice(price), priceStyle = TextStyle(
             fontSize = 16.sp, fontWeight = FontWeight.SemiBold
         )
     )
@@ -79,9 +81,13 @@ fun TotalCostTextAndPrice(modifier: Modifier = Modifier, price: Double) {
         modifier = modifier,
         title = stringResource(id = R.string.total_cost), titleStyle = TextStyle(
             fontSize = 16.sp, fontWeight = FontWeight(600)
-        ), price = price, priceStyle = TextStyle(
+        ), price = formatPrice(price), priceStyle = TextStyle(
             fontSize = 20.sp, fontWeight = FontWeight(600)
         )
     )
+}
 
+fun formatPrice(price: Double): String {
+    val format = NumberFormat.getCurrencyInstance(Locale.getDefault())
+    return format.format(price)
 }

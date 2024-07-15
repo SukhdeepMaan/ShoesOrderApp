@@ -16,10 +16,10 @@ import com.example.abcapp.myCart.MyCartData
 @Composable
 fun CartListItem(
     modifier: Modifier = Modifier,
-    myCartData: MyCartData,
-    isRefresh: Boolean,
-    onDelete: () -> Unit,
-    onRefresh: (Boolean) -> Unit
+    listItem: MyCartData,
+    subtraction: () -> Unit,
+    addition: () -> Unit = {},
+    onDelete: () -> Unit = {},
 ) {
     Row(
         modifier
@@ -29,30 +29,22 @@ fun CartListItem(
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.weight(1f)) {
-            MyCartListItemImage(image = myCartData.image)
+            MyCartListItemImage(image = listItem.image)
             Column {
                 Column(
                     modifier = Modifier.weight(1f)
                 ) {
-                    CartListItemName(name = myCartData.name)
-                    CartListItemPrice(price = myCartData.price)
+                    CartListItemName(name = listItem.name)
+                    CartListItemPrice(price = listItem.price)
                 }
                 // plus and minus button
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    SubtractionButton {
-                        onRefresh(!isRefresh)
-                        if (myCartData.count > 1) {
-                            myCartData.count--
-                        }
-                    }
-                    CartListItemOwnCounter(count = myCartData.count)
-                    AdditionButton {
-                        onRefresh(!isRefresh)
-                        myCartData.count++
-                    }
+                    SubtractionButton(onClick = subtraction)
+                    CartListItemOwnCounter(count = listItem.count)
+                    AdditionButton(onClick = addition)
                 }
             }
         }

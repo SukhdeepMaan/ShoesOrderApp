@@ -71,4 +71,5 @@
     <string name="paypal_card">Paypal Card</string>
     <string name="your_payment_is_successful">Your Payment Is\nSuccessful</string>
     <string name="back_to_shopping">Back To Shopping</string>
+    <string name="your_cart_is_empty">Your Cart is Empty</string>
 </resources>

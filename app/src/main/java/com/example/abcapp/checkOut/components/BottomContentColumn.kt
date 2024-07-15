@@ -20,6 +20,7 @@ import com.example.abcapp.CustomButton
 import com.example.abcapp.R
 import com.example.abcapp.myCart.components.DashDivider
 import com.example.abcapp.myCart.components.RowForBottomBar
+import com.example.abcapp.myCart.components.formatPrice
 import com.example.abcapp.ui.theme.cornflowerBlue
 
 @Composable
@@ -38,7 +39,7 @@ fun BottomContentColum(modifier: Modifier = Modifier, paymentOnClick: () -> Unit
             title = stringResource(R.string.subtotal),
             titleStyle = TextStyle(
                 color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight(600)
-            ), price = 1250.00,
+            ), price = formatPrice(40.90),
             priceStyle = TextStyle(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
@@ -48,7 +49,7 @@ fun BottomContentColum(modifier: Modifier = Modifier, paymentOnClick: () -> Unit
             title = stringResource(R.string.shipping),
             titleStyle = TextStyle(
                 color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight(600)
-            ), price = 40.90,
+            ), price =formatPrice(40.90) ,
             priceStyle = TextStyle(
                 fontSize = 16.sp,
                 fontWeight = FontWeight.SemiBold
@@ -59,7 +60,7 @@ fun BottomContentColum(modifier: Modifier = Modifier, paymentOnClick: () -> Unit
         RowForBottomBar(
             title = stringResource(R.string.total_cost), titleStyle = TextStyle(
                 fontSize = 16.sp, fontWeight = FontWeight(600)
-            ), price = 1690.99, priceStyle = TextStyle(
+            ), price = formatPrice(40.90), priceStyle = TextStyle(
                 fontSize = 20.sp, fontWeight = FontWeight(600)
             )
         )

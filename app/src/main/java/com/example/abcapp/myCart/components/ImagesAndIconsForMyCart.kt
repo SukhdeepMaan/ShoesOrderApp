@@ -22,7 +22,7 @@ import com.example.abcapp.ui.theme.cornflowerBlue
 fun MyCartListItemImage(
     modifier: Modifier = Modifier,
     image: Int,
-    ) {
+) {
     Image(
         painter = painterResource(id = image),
         contentDescription = null,
@@ -54,7 +54,10 @@ fun SubtractionButton(
 }
 
 @Composable
-fun AdditionButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun AdditionButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit
+) {
     AppIcon(imageVector = Icons.Default.Add,
         contentDescription = "Add Icon",
         modifier = modifier
