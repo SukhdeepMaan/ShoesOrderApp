@@ -25,6 +25,7 @@ import com.example.abcapp.ui.theme.unselectedTextColor
 @Composable
 fun InformationRow(
     modifier: Modifier = Modifier,
+    textFiledModifier: Modifier = Modifier,
     title: String,
     value: String,
     enableTextField: Boolean = false,
@@ -71,9 +72,11 @@ fun InformationRow(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 BasicTextField(
+                    modifier = textFiledModifier,
                     value = value,
                     onValueChange = onValueChange,
-                    enabled = enableTextField
+                    enabled = enableTextField,
+                    singleLine = true
                 )
                 Text(
                     text = title,

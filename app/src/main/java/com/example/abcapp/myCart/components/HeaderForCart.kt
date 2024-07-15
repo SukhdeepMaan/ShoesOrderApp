@@ -1,4 +1,4 @@
-package com.example.abcapp.checkOut.components
+package com.example.abcapp.myCart.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
@@ -14,22 +14,16 @@ import com.example.abcapp.HeaderDesign
 import com.example.abcapp.R
 
 @Composable
-fun HeaderContent(modifier: Modifier = Modifier , onBackClick: ()-> Unit) {
+fun HeaderForCart(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
     HeaderDesign(
-        modifier = modifier.padding(horizontal = 20.dp, vertical = 12.dp),
+        modifier = modifier.padding(20.dp),
         title = {
-            Text(
-                text = stringResource(R.string.check_out),
-                style = TextStyle(
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.SemiBold
-                )
-            )
+            MyCartText()
         },
         leadingIcon = {
             CustomIcon(
                 icon = R.drawable.arrow,
-                contentDescription = stringResource(R.string.back),
+                contentDescription = stringResource(id = R.string.back_arrow),
                 onClick = onBackClick
             )
         }

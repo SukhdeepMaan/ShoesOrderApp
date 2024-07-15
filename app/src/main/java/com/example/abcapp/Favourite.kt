@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.abcapp.data.shoeList
+import com.example.abcapp.ui.theme.lightGreyForBackGround
 import com.example.abcapp.ui.theme.white
 
 @Composable
@@ -29,6 +30,7 @@ fun FavouriteOrBestSeller(
 ) {
     Column(
         modifier = modifier.fillMaxSize()
+            .background(color = lightGreyForBackGround)
     ) {
         header?.invoke()
         LazyVerticalGrid(
@@ -64,7 +66,9 @@ fun FavouriteReady(modifier: Modifier = Modifier, navHostController: NavHostCont
                     CustomIcon(
                         icon = R.drawable.arrow,
                         contentDescription = "Arrow",
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            navHostController.navigateUp()
+                        }
                     )
                 },
                 trailingIcon = {

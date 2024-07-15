@@ -33,6 +33,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.CustomIcon
 import com.example.abcapp.HeaderAndInputField
 import com.example.abcapp.HeaderDesign
@@ -41,7 +42,7 @@ import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.lightGreyForBackGround
 
 @Composable
-fun Profile(modifier: Modifier = Modifier) {
+fun Profile(modifier: Modifier = Modifier, navHostController: NavHostController) {
     var fullName by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -61,7 +62,9 @@ fun Profile(modifier: Modifier = Modifier) {
                     CustomIcon(
                         icon = R.drawable.arrow,
                         contentDescription = stringResource(R.string.arrow),
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            navHostController.navigateUp()
+                        }
                     )
                 },
                 trailingIcon = {

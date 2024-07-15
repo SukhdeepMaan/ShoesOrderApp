@@ -31,6 +31,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.Circle
 import com.example.abcapp.CustomIcon
 import com.example.abcapp.HeaderDesign
@@ -40,7 +41,7 @@ import com.example.abcapp.ui.theme.lightGreyForBackGround
 import com.example.abcapp.ui.theme.unselectedTextColor
 
 @Composable
-fun NotificationScreen(modifier: Modifier = Modifier) {
+fun NotificationScreen(modifier: Modifier = Modifier, navHostController: NavHostController) {
     NotificationScreenDesign(
         modifier = modifier,
         header = {
@@ -59,7 +60,9 @@ fun NotificationScreen(modifier: Modifier = Modifier) {
                     CustomIcon(
                         icon = R.drawable.arrow,
                         contentDescription = stringResource(R.string.back),
-                        onClick = { /*TODO*/ }
+                        onClick = {
+                            navHostController.popBackStack()
+                        }
                     )
                 },
                 trailingIcon = {
@@ -94,7 +97,6 @@ fun NotificationScreen(modifier: Modifier = Modifier) {
                 }
                 items(data, key = {it.id}){
                     NotificationItem(notificationData = it) {
-
                     }
                 }
             }

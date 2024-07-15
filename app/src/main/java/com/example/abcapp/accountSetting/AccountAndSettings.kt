@@ -27,6 +27,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.CustomIcon
 import com.example.abcapp.HeaderDesign
 import com.example.abcapp.R
@@ -55,7 +56,7 @@ private fun AccountAndSettingsDesign(
 }
 
 @Composable
-fun AccountAndSettings(modifier: Modifier = Modifier) {
+fun AccountAndSettings(modifier: Modifier = Modifier, navHostController: NavHostController) {
 
     var appSettingsListMutable by remember {
         mutableStateOf(appSettingsList)

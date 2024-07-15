@@ -8,7 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.abcapp.BestSeller
 import com.example.abcapp.DetailScreen
 import com.example.abcapp.FavouriteReady
-import com.example.abcapp.HomeDesigning
+import com.example.abcapp.home.HomeDesigning
 import com.example.abcapp.LoginScreen
 import com.example.abcapp.myCart.MyCartReady
 import com.example.abcapp.RecoveryPassword
@@ -28,7 +28,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = ScreenRoute.CHECKOUT.route
+        startDestination = ScreenRoute.ONBOARDING.route
     ) {
         composable(
             route = ScreenRoute.ONBOARDING.route
@@ -61,20 +61,18 @@ fun AppNavigation(modifier: Modifier = Modifier) {
             BestSeller(navHostController = navHostController)
         }
         composable(ScreenRoute.PROFILE.route) {
-            Profile()
+            Profile(navHostController = navHostController)
         }
         composable(ScreenRoute.ACCOUNT_SETTINGS.route) {
-            AccountAndSettings()
+            AccountAndSettings(navHostController = navHostController)
         }
         composable(ScreenRoute.NOTIFICATION.route) {
-            NotificationScreen()
+            NotificationScreen(navHostController = navHostController)
         }
         composable(ScreenRoute.CHECKOUT.route) {
-            CheckOutScreen()
+            CheckOutScreen(navHostController = navHostController)
         }
-
     }
-
 }
 
 enum class ScreenRoute(val route: String) {

@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.abcapp.CustomButton
 import com.example.abcapp.R
-import com.example.abcapp.myCart.DashDivider
-import com.example.abcapp.myCart.RowForBottomBar
+import com.example.abcapp.myCart.components.DashDivider
+import com.example.abcapp.myCart.components.RowForBottomBar
 import com.example.abcapp.ui.theme.cornflowerBlue
 
 @Composable

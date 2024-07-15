@@ -1,6 +1,7 @@
 package com.example.abcapp.checkOut
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -21,20 +23,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.abcapp.CustomIcon
 import com.example.abcapp.R
+import com.example.abcapp.checkOut.alertDialogShow.ShowAlertDialog
+import com.example.abcapp.checkOut.components.AddressText
 import com.example.abcapp.checkOut.components.BottomContentColum
+import com.example.abcapp.checkOut.components.ContactInformationText
 import com.example.abcapp.checkOut.components.ExpandedContent
 import com.example.abcapp.checkOut.components.HeaderContent
 import com.example.abcapp.checkOut.components.InformationRow
 import com.example.abcapp.checkOut.components.MapView
 import com.example.abcapp.checkOut.components.PaymentMethodRow
+import com.example.abcapp.checkOut.components.PaymentMethodText
 import com.example.abcapp.ui.theme.unselectedTextColor
 
 @Composable
@@ -56,63 +65,86 @@ private fun CheckOutDesign(
 }
 
 @Composable
-fun CheckOutScreen(modifier: Modifier = Modifier) {
+fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostController) {
 
-    val userPersonalDetail by remember {
-        mutableStateOf(userPersonalDetail)
-    }
+    var userPersonalDetail by remember { mutableStateOf(userPersonalDetail) }
     var cardNumber by remember { mutableStateOf("1234567890123456") }
     var addressIconRotation by remember { mutableFloatStateOf(90f) }
     var paymentMethodIconRotation by remember { mutableFloatStateOf(90f) }
+    var enablerEmailField by remember { mutableStateOf(false) }
+    var enablerNumberField by remember { mutableStateOf(false) }
+    val emailFocusRequester = remember { FocusRequester() }
+    val numberFocusRequester = remember { FocusRequester() }
+    val focusManager = LocalFocusManager.current
+    var showAlert by remember { mutableStateOf(false) }
+
+    // Request focus based on the enabled field
+    LaunchedEffect(enablerEmailField, enablerNumberField) {
+        when {
+            enablerEmailField -> emailFocusRequester.requestFocus()
+            enablerNumberField -> numberFocusRequester.requestFocus()
+            else -> focusManager.clearFocus()
+        }
+    }
+    if (showAlert) {
+        ShowAlertDialog(
+            onDismissRequest = { showAlert = false },
+            onConfirm = { showAlert = false },
+        )
+    }  // show alert dialog
     CheckOutDesign(
         modifier = modifier,
-        header = { HeaderContent() },
+        header = { HeaderContent() {
+            navHostController.navigateUp()
+        } },
         content = {
             item {
                 Column(
                     modifier = Modifier
                         .fillParentMaxWidth()
+                        .pointerInput(Unit) {
+                            detectTapGestures {
+                                focusManager.clearFocus()
+                                enablerEmailField = false
+                                enablerNumberField = false
+                            }
+                        }
                         .padding(16.dp)
                         .background(Color.White, shape = RoundedCornerShape(12.dp))
                         .padding(20.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.contact_information),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
+                    ContactInformationText()   // contact information text
                     // email
                     InformationRow(
+                        textFiledModifier = Modifier.focusRequester(emailFocusRequester),
                         title = stringResource(R.string.email_),
                         value = userPersonalDetail.email,
                         vectorIcon = Icons.Default.Email,
+                        enableTextField = enablerEmailField,
                         onValueChange = {
+                            userPersonalDetail = userPersonalDetail.copy(email = it)
                         }
                     ) {
                         // TODO edit icon action will be here
+                        enablerNumberField = false
+                        enablerEmailField = !enablerEmailField
                     }
                     // Number
                     InformationRow(
+                        textFiledModifier = Modifier.focusRequester(numberFocusRequester),
                         title = stringResource(R.string.email_),
                         value = userPersonalDetail.number,
                         vectorIcon = Icons.Default.Phone,
+                        enableTextField = enablerNumberField,
                         onValueChange = {
-
+                            userPersonalDetail = userPersonalDetail.copy(number = it)
                         }
                     ) {
-                        // TODO edit icon action will be here
+                        enablerEmailField = false
+                        enablerNumberField = !enablerNumberField
                     }
-                    // address
-                    Text(
-                        text = stringResource(R.string.address),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
+                    AddressText()   // address text
                     // address line and expand icon
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Text(
@@ -131,21 +163,13 @@ fun CheckOutScreen(modifier: Modifier = Modifier) {
                             // TODO address expand icon action will be here
                         }
                     }
-                    // expanded address compose
-                    // on this condition we can add anything instead of this box
+                    /* expanded address compose
+                     on this condition we can add anything instead of this box*/
                     if (addressIconRotation != 90f) {
                         ExpandedContent()
                     }
-                    // map will be here
-                    MapView()
-                    // payment method
-                    Text(
-                        text = stringResource(R.string.payment_method),
-                        style = TextStyle(
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
+                    MapView()  // map will be here
+                    PaymentMethodText()  // payment method text
                     // payment method row
                     PaymentMethodRow(
                         title = stringResource(R.string.paypal_card),
@@ -168,6 +192,7 @@ fun CheckOutScreen(modifier: Modifier = Modifier) {
         bottom = {
             BottomContentColum {
                 // TODO payment button click will be here
+                showAlert = true
             }
         }
     )
