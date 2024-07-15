@@ -68,7 +68,7 @@ private fun CheckOutDesign(
 fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostController) {
 
     var userPersonalDetail by remember { mutableStateOf(userPersonalDetail) }
-    var cardNumber by remember { mutableStateOf("1234567890123456") }
+    var cardNumber by remember { mutableStateOf("***********23456") }
     var addressIconRotation by remember { mutableFloatStateOf(90f) }
     var paymentMethodIconRotation by remember { mutableFloatStateOf(90f) }
     var enablerEmailField by remember { mutableStateOf(false) }
@@ -94,9 +94,11 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
     }  // show alert dialog
     CheckOutDesign(
         modifier = modifier,
-        header = { HeaderContent() {
-            navHostController.navigateUp()
-        } },
+        header = {
+            HeaderContent {
+                navHostController.navigateUp()
+            }
+        },
         content = {
             item {
                 Column(
@@ -126,7 +128,6 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
                             userPersonalDetail = userPersonalDetail.copy(email = it)
                         }
                     ) {
-                        // TODO edit icon action will be here
                         enablerNumberField = false
                         enablerEmailField = !enablerEmailField
                     }
@@ -160,15 +161,14 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
                             contentDescription = ""
                         ) {
                             addressIconRotation = if (addressIconRotation == 90f) -90f else 90f
-                            // TODO address expand icon action will be here
                         }
                     }
                     /* expanded address compose
                      on this condition we can add anything instead of this box*/
                     if (addressIconRotation != 90f) {
-                        ExpandedContent()
+                        MapView()
                     }
-                    MapView()  // map will be here
+                    // map will be here
                     PaymentMethodText()  // payment method text
                     // payment method row
                     PaymentMethodRow(
@@ -181,7 +181,6 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
                     ) {
                         paymentMethodIconRotation =
                             if (paymentMethodIconRotation == 90f) -90f else 90f
-                        // TODO arrow icon action will be here
                     }
                     if (paymentMethodIconRotation != 90f) {
                         ExpandedContent()
@@ -191,7 +190,6 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
         },
         bottom = {
             BottomContentColum {
-                // TODO payment button click will be here
                 showAlert = true
             }
         }

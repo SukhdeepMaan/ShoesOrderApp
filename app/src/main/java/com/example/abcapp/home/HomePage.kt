@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -35,10 +37,10 @@ import com.example.abcapp.CompanyNameButton
 import com.example.abcapp.DataModel
 import com.example.abcapp.NewShowItem
 import com.example.abcapp.R
-import com.example.abcapp.home.bottomSheet.ReadyBottomSheetForHomePage
 import com.example.abcapp.ShoeItem
 import com.example.abcapp.StickyHeaderDesign
 import com.example.abcapp.data.shoeList
+import com.example.abcapp.home.bottomSheet.ReadyBottomSheetForHomePage
 import com.example.abcapp.home.components.HeaderForHomePage
 import com.example.abcapp.home.components.HeyText
 import com.example.abcapp.home.components.ProfilePhoto
@@ -79,12 +81,15 @@ fun HomeDesigning(
                         HeyText()
                         UserNameText()
                     }
-                    itemsIndexed(drawerItems) {
-                        index, it ->
+                    itemsIndexed(drawerItems) { index, it ->
                         // divider is increasing the size of lazy column
-/*                        if (index == drawerItems.size-1) {
-                            HorizontalDivider()
-                        }*/
+                        if (index == drawerItems.size - 1) {
+                            HorizontalDivider(
+                                modifier = Modifier
+                                    .fillMaxWidth(0.5f)
+                                    .padding(vertical = 25.dp)
+                            )
+                        }
                         DrawerRow(
                             icon = it.icon,
                             title = it.title
@@ -94,6 +99,7 @@ fun HomeDesigning(
                         }
                     }
                 }
+
             }
         }
     ) {

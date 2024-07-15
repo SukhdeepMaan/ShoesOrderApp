@@ -69,4 +69,6 @@
     <string name="address">Address</string>
     <string name="payment_method">Payment Method</string>
     <string name="paypal_card">Paypal Card</string>
+    <string name="your_payment_is_successful">Your Payment Is\nSuccessful</string>
+    <string name="back_to_shopping">Back To Shopping</string>
 </resources>
