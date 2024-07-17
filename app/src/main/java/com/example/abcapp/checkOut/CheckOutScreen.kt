@@ -1,5 +1,13 @@
 package com.example.abcapp.checkOut
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColor
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -69,8 +77,6 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
 
     var userPersonalDetail by remember { mutableStateOf(userPersonalDetail) }
     var cardNumber by remember { mutableStateOf("***********23456") }
-    var addressIconRotation by remember { mutableFloatStateOf(90f) }
-    var paymentMethodIconRotation by remember { mutableFloatStateOf(90f) }
     var enablerEmailField by remember { mutableStateOf(false) }
     var enablerNumberField by remember { mutableStateOf(false) }
     val emailFocusRequester = remember { FocusRequester() }
@@ -78,6 +84,19 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
     val focusManager = LocalFocusManager.current
     var showAlert by remember { mutableStateOf(false) }
 
+    // animated states
+    var addressIconRotationOrNot by remember { mutableStateOf(false) }
+    var paymentMethodIconRotationOrNot by remember { mutableStateOf(false) }
+    val addressIconRotation by animateFloatAsState(
+        targetValue = if (addressIconRotationOrNot) -90f else 90f,
+        label = "addressIconRotation",
+        animationSpec = tween(durationMillis = 600),
+    )
+    val paymentMethodIconRotation by animateFloatAsState(
+        targetValue = if (paymentMethodIconRotationOrNot) -90f else 90f,
+        label = "paymentMethodIconRotation",
+        animationSpec = tween(durationMillis = 600),
+    )
     // Request focus based on the enabled field
     LaunchedEffect(enablerEmailField, enablerNumberField) {
         when {
@@ -160,15 +179,13 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
                             icon = R.drawable.forword_arrow,
                             contentDescription = ""
                         ) {
-                            addressIconRotation = if (addressIconRotation == 90f) -90f else 90f
+                            addressIconRotationOrNot = !addressIconRotationOrNot
                         }
                     }
-                    /* expanded address compose
-                     on this condition we can add anything instead of this box*/
-                    if (addressIconRotation != 90f) {
+                    AnimatedVisibility(
+                        visible = addressIconRotationOrNot) {
                         MapView()
                     }
-                    // map will be here
                     PaymentMethodText()  // payment method text
                     // payment method row
                     PaymentMethodRow(
@@ -179,10 +196,9 @@ fun CheckOutScreen(modifier: Modifier = Modifier, navHostController: NavHostCont
                             cardNumber = it
                         }
                     ) {
-                        paymentMethodIconRotation =
-                            if (paymentMethodIconRotation == 90f) -90f else 90f
+                        paymentMethodIconRotationOrNot = !paymentMethodIconRotationOrNot
                     }
-                    if (paymentMethodIconRotation != 90f) {
+                    AnimatedVisibility(paymentMethodIconRotationOrNot) {
                         ExpandedContent()
                     }
                 }

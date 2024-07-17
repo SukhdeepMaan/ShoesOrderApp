@@ -28,7 +28,7 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = ScreenRoute.HOME.route
+        startDestination = ScreenRoute.CHECKOUT.route
     ) {
         composable(
             route = ScreenRoute.ONBOARDING.route
