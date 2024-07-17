@@ -8,17 +8,22 @@ import androidx.navigation.compose.rememberNavController
 import com.example.abcapp.BestSeller
 import com.example.abcapp.DetailScreen
 import com.example.abcapp.FavouriteReady
-import com.example.abcapp.LoginScreen
 import com.example.abcapp.RecoveryPassword
 import com.example.abcapp.ShoeAppSignUp
 import com.example.abcapp.accountSetting.AccountAndSettings
 import com.example.abcapp.checkOut.CheckOutScreen
 import com.example.abcapp.data.shoeList
 import com.example.abcapp.home.HomeDesigning
+import com.example.abcapp.login.loginNavigation
 import com.example.abcapp.myCart.MyCartReady
 import com.example.abcapp.notifications.NotificationScreen
 import com.example.abcapp.profile.Profile
 import com.example.abcapp.splashScreen.OnBoardingScreen
+import kotlinx.serialization.Serializable
+
+@Serializable
+object OnBoarding
+
 
 @Composable
 fun AppNavigation(modifier: Modifier = Modifier) {
@@ -28,16 +33,15 @@ fun AppNavigation(modifier: Modifier = Modifier) {
     NavHost(
         modifier = modifier,
         navController = navHostController,
-        startDestination = ScreenRoute.CHECKOUT.route
+//        startDestination = ScreenRoute.ONBOARDING.route
+        startDestination = OnBoarding
     ) {
-        composable(
-            route = ScreenRoute.ONBOARDING.route
-        ) {
+
+        composable<OnBoarding> {
             OnBoardingScreen(navHostController = navHostController)
         }
-        composable(ScreenRoute.LOGIN.route) {
-            LoginScreen(navHostController = navHostController)
-        }
+        loginNavigation(navHostController)
+
         composable(ScreenRoute.REGISTER.route) {
             ShoeAppSignUp(navHostController = navHostController)
         }
@@ -90,9 +94,3 @@ enum class ScreenRoute(val route: String) {
     NOTIFICATION("/notification"),
     CHECKOUT("/checkout")
 }
-
-//sealed class ScreenRoute(val route:String){
-//
-//    data object OnBoarding : ScreenRoute("/onboarding")
-//
-//}

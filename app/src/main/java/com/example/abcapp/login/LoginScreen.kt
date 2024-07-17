@@ -1,4 +1,4 @@
-package com.example.abcapp
+package com.example.abcapp.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -49,6 +49,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.abcapp.R
 import com.example.abcapp.navigation.ScreenRoute
 import com.example.abcapp.ui.theme.cornflowerBlue
 
@@ -56,11 +57,15 @@ import com.example.abcapp.ui.theme.cornflowerBlue
 @Composable
 fun LoginScreen(
     modifier: Modifier = Modifier,
-    navHostController: NavHostController
+    navHostController: NavHostController,
+    name: String
 ) {
     var username by rememberSaveable { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isPasswordShow by remember { mutableStateOf(false) }
+//    val name = navHostController.previousBackStackEntry?.savedStateHandle?.get<String>("name") ?: ""
+//    val data =
+//        navHostController.previousBackStackEntry?.savedStateHandle?.get<Test>("data") ?: Test()
 
     Column(
         modifier = modifier
@@ -80,7 +85,7 @@ fun LoginScreen(
         ) {
             item {
                 TitleText(
-                    firstText = stringResource(R.string.hello_again),
+                    firstText = "${stringResource(R.string.hello_again)}, $name",
                     secondText = stringResource(R.string.welcome_back_you_have_been_missed)
                 )
 
@@ -234,7 +239,7 @@ fun HeaderAndInputField(
     isShowIcon: Boolean = false,
     isPasswordShow: Boolean = true,
     keyboardOption: KeyboardOptions = KeyboardOptions(),
-    singleLine:Boolean=true,
+    singleLine: Boolean = true,
     onClick: () -> Unit = {},
     onValueChange: (String) -> Unit,
 ) {

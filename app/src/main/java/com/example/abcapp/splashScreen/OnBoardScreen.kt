@@ -1,5 +1,6 @@
 package com.example.abcapp.splashScreen
 
+import android.os.Parcelable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,9 +24,24 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.abcapp.R
-import com.example.abcapp.navigation.ScreenRoute
+import com.example.abcapp.login.Login
 import com.example.abcapp.ui.theme.cornflowerBlue
 import kotlinx.coroutines.launch
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
+data class Test(
+    val id: String = "",
+    val name: String = "",
+    val data2: Test2? = null,
+    val data3: List<Test2>? = null
+) : Parcelable
+
+@Parcelize
+data class Test2(
+    val age: String
+) : Parcelable
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -69,7 +85,15 @@ fun OnBoardingScreen(
             Button(
                 onClick = {
                     if (pagerState.currentPage == boardingData.size - 1) {
-                        navHostController.navigate(ScreenRoute.LOGIN.route)
+//                        navHostController.currentBackStackEntry?.savedStateHandle?.set(
+//                            "name",
+//                            "Jayant"
+//                        )
+//                        navHostController.currentBackStackEntry?.savedStateHandle?.set(
+//                            "data",
+//                            Test("1", "Jayant")
+//                        )
+                        navHostController.navigate(Login(name = "Jayant"))
                     } else {
                         scope.launch {
                             pagerState.animateScrollToPage(pagerState.currentPage + 1)

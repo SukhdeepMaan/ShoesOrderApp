@@ -35,7 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.abcapp.CustomIcon
-import com.example.abcapp.HeaderAndInputField
+import com.example.abcapp.login.HeaderAndInputField
 import com.example.abcapp.HeaderDesign
 import com.example.abcapp.R
 import com.example.abcapp.ui.theme.cornflowerBlue

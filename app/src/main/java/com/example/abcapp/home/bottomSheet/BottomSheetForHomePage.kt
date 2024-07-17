@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.abcapp.CustomButton
+import com.example.abcapp.login.CustomButton
 import com.example.abcapp.HeaderDesign
 import com.example.abcapp.ui.theme.cornflowerBlue
 import com.example.abcapp.ui.theme.unselectedColor
